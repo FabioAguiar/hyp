@@ -1,33 +1,55 @@
 from django.db import models
 from django.utils import timezone
+from PIL import Image
+
+
+#class Cicle (models.Model):
+#	cicle_id = models.AutoField(primary_key=True)
 
 
 class Sensor(models.Model):
 	sensor_id = models.AutoField(primary_key=True)
-	name = models.CharField(max_length=20, default='')
-	technical_name = models.CharField(max_length=30, default='')
+	name = models.CharField(max_length=50, default='')
+	technical_name = models.CharField(max_length=50, default='')
+	type_signal = models.CharField(max_length=10, default='')
+	lib_code = models.CharField(max_length=10, default='')
 	description = models.TextField(default='')
-	is_active = models.BooleanField(default=False)	
+	digital_ports_quant = models.CharField(max_length=2, default='')
+	analog_ports_quant = models.CharField(max_length=2, default='')	
+	is_activated = models.BooleanField(default=False)
+	sensor_photo = models.FileField(upload_to='sensor_photo', null='True', blank='True')
+	sensor_document_1 = models.FileField(upload_to='sensor_document_1', null='True', blank='True')
+	sensor_document_2 = models.FileField(upload_to='sensor_document_2', null='True', blank='True')
+	sensor_document_3 = models.FileField(upload_to='sensor_document_3', null='True', blank='True')
+	published_date = models.DateTimeField(blank=True, null=True)
 	state_cicle1 = models.BooleanField(default=False)
 	time_cicle1_begin = models.TimeField(blank=True, null=True)
 	time_cicle1_end = models.TimeField(blank=True, null=True)
 	state_cicle2 = models.BooleanField(default=False)	
 	time_cicle2_begin = models.TimeField(blank=True, null=True)
 	time_cicle2_end = models.TimeField(blank=True, null=True)
+	date_time_create = models.DateTimeField(blank=True, null=True)
 	
-	def setTimeCicle1(self):
-		self.time_cicle1 = timezone.now()
+	def date_time(self):
+		self.date_time_create = timezone.now()
+		self.save()
+
+
+	def publish(self):
+		self.published_date = timezone.now()
 		self.save()
 
 	def __str__(self):
 		return self.name
+	
 		
 class Actuator(models.Model):
 	actuator_id = models.AutoField(primary_key=True)
 	name = models.CharField(max_length=30, default='')
 	technical_name = models.CharField(max_length=30, default='')
+	type_sensor = models.CharField(max_length=30, default='')
 	description = models.TextField(default='')
-	is_active = models.BooleanField(default=False)	
+	is_activated = models.BooleanField(default=False)
 	state_cicle1 = models.BooleanField(default=False)
 	time_cicle1_begin = models.TimeField(blank=True, null=True)
 	time_cicle1_end = models.TimeField(blank=True, null=True)
