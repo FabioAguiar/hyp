@@ -22,13 +22,13 @@ class Sensor(models.Model):
 	sensor_document_2 = models.FileField(upload_to='sensor_document_2', null='True', blank='True')
 	sensor_document_3 = models.FileField(upload_to='sensor_document_3', null='True', blank='True')
 	published_date = models.DateTimeField(blank=True, null=True)
-	state_cicle1 = models.BooleanField(default=False)
-	time_cicle1_begin = models.TimeField(blank=True, null=True)
-	time_cicle1_end = models.TimeField(blank=True, null=True)
-	state_cicle2 = models.BooleanField(default=False)	
-	time_cicle2_begin = models.TimeField(blank=True, null=True)
-	time_cicle2_end = models.TimeField(blank=True, null=True)
-	date_time_create = models.DateTimeField(blank=True, null=True)
+	#state_cicle1 = models.BooleanField(default=False)
+	#time_cicle1_begin = models.TimeField(blank=True, null=True)
+	#time_cicle1_end = models.TimeField(blank=True, null=True)
+	#state_cicle2 = models.BooleanField(default=False)	
+	#time_cicle2_begin = models.TimeField(blank=True, null=True)
+	#time_cicle2_end = models.TimeField(blank=True, null=True)
+	#date_time_create = models.DateTimeField(blank=True, null=True)
 	
 	def date_time(self):
 		self.date_time_create = timezone.now()
@@ -44,25 +44,37 @@ class Sensor(models.Model):
 	
 		
 class Actuator(models.Model):
-	actuator_id = models.AutoField(primary_key=True)
-	name = models.CharField(max_length=30, default='')
-	technical_name = models.CharField(max_length=30, default='')
-	type_sensor = models.CharField(max_length=30, default='')
-	description = models.TextField(default='')
-	is_activated = models.BooleanField(default=False)
-	state_cicle1 = models.BooleanField(default=False)
-	time_cicle1_begin = models.TimeField(blank=True, null=True)
-	time_cicle1_end = models.TimeField(blank=True, null=True)
-	state_cicle2 = models.BooleanField(default=False)	
-	time_cicle2_begin = models.TimeField(blank=True, null=True)
-	time_cicle2_end = models.TimeField(blank=True, null=True)
-	
-	def setTimeCicle1(self):
-		self.time_cicle1 = timezone.now()
-		self.save()
+    actuator_id = models.AutoField(primary_key=True)
+    name = models.CharField(max_length=30, default='')
+    technical_name = models.CharField(max_length=30, default='')
+    description = models.TextField(max_length=100, default='')
+    is_activated = models.BooleanField(default=False)
+    actuator_photo = models.FileField(upload_to='actuator_photo', null='True', blank='True')	
+    actuator_document_1 = models.FileField(upload_to='actuator_document_1', null='True', blank='True')
+    actuator_document_2 = models.FileField(upload_to='actuator_document_2', null='True', blank='True')
+    actuator_document_3 = models.FileField(upload_to='actuator_document_3', null='True', blank='True')
 
-	def __str__(self):
-		return self.name
+    def __str__(self):
+        return self.name
+
+class Microcontroller(models.Model):
+	mc_id = models.AutoField(primary_key=True)
+	type_board = models.CharField(max_length=30, default='')
+	board_name = models.CharField(max_length=30, default='')
+	description = models.TextField(max_length=100, default='')
+	digital_ports = models.CharField(max_length=1000, default='')
+	number_digital_ports = models.CharField(max_length=2, default='')
+	pwm_ports =  models.CharField(max_length=100, default='')
+	number_pwm_ports = models.CharField(max_length=2, default='')
+	analog_ports = models.CharField(max_length=100, default='')
+	number_analog_ports = models.CharField(max_length=2, default='')
+	microcontroller_photo = models.FileField(upload_to='actuator_photo', null='True', blank='True')
+	is_activated = models.BooleanField(default=False)
+	#rx_tx_ports =  models.CharField(max_length=100, default='')
+	#number_rx_tx_ports =  models.CharField(max_length=2, default='')
+	#sda_scl_ports =  models.CharField(max_length=100, default='')
+	#number_sda_scl_ports =  models.CharField(max_length=2, default='')
+
 		
 class LogDataSensor(models.Model): 
 	log_id = models.AutoField(primary_key=True)
@@ -82,21 +94,6 @@ class LogDataActuator(models.Model):
 	is_active = models.BooleanField(default=False)		
 	date_time_data_log = models.DateTimeField(default=timezone.now)
 	
-class MicrocontrollerAttributes(models.Model):
-	mca_id = models.AutoField(primary_key=True)
-	type = models.CharField(max_length=30, default='')
-	board_name = models.CharField(max_length=30, default='')
-	description = models.TextField(default='')
-	digital_ports = models.CharField(max_length=100, default='')
-	number_digital_ports = models.IntegerField()
-	pwm_ports =  models.CharField(max_length=100, default='')
-	number_pwm_ports = models.IntegerField()
-	analog_ports = models.CharField(max_length=100, default='')
-	number_analog_ports = models.IntegerField()
-	rx_tx_ports =  models.CharField(max_length=100, default='')
-	number_rx_tx_ports =  models.CharField(max_length=100, default='')
-	sda_scl_ports =  models.CharField(max_length=100, default='')
-	number_sda_scl_ports =  models.CharField(max_length=100, default='')
 	
 class SensorConfiguration(models.Model):
 	sensor_config_id = models.AutoField(primary_key=True)

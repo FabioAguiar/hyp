@@ -296,10 +296,10 @@
 	                                    <a href="#">Atuador<span class="fa arrow"></span></a>
 	                                    <ul class="nav nav-third-level">
 	                                        <li>
-	                                            <a href="#">Adicionar</a>
+	                                            <a href="{% url 'actuator_new' %}">Adicionar</a>
 	                                        </li>
 	                                        <li>
-	                                            <a href="#">Listar</a>
+	                                            <a href="{% url 'actuator_list' %}">Listar</a>
 	                                        </li>
 	                                    </ul>
 	                                </li> 
@@ -307,7 +307,7 @@
 	                                    <a href="#">Microcontrolador<span class="fa arrow"></span></a>
 	                                    <ul class="nav nav-third-level">
 	                                        <li>
-	                                            <a href="#">Adicionar</a>
+	                                            <a href="{% url 'microcontroller_new' %}">Adicionar</a>
 	                                        </li>
 	                                        <li>
 	                                            <a href="#">Listar</a>
@@ -319,8 +319,11 @@
 	                            <!-- /.nav-second-level -->
 	                        </li>
 	                        <li>
-	                            <a href="#"><i class="fa fa-cogs fa-fw"></i> Configurações do sistema</a>
+	                            <a href="#"><i class="fa fa-cogs fa-fw"></i> Configurações do Sistema</a>
 	                        </li>
+	                        <li>
+	                            <a href="{% url 'control_panel' %}"><i class="fa fa-table fa-fw"></i> Painel de Controle</a>
+	                        </li>	                        
 	                        <li>
 	                            <a href="#"><i class="fab fa-envira fab-fw"></i> Sobre</a>
 	                        </li>
