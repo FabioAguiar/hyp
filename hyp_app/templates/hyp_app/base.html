@@ -349,8 +349,6 @@
 	        </div>
 		</div>
 
-		{% block jsimport %}{% endblock %}
-
 	    <!-- jQuery -->
 	    <script src="{% static 'js/jquery/jquery.min.js' %}"></script>
 
@@ -362,6 +360,8 @@
 
 	    <!-- Custom Theme JavaScript -->
 	    <script src="{% static 'js/sb-admin-2/sb-admin-2.min.js' %}"></script>
+
+		{% block jsimport %}{% endblock %}
 
     </body>
 </html>

@@ -135,3 +135,16 @@ class ActuatorConfiguration(models.Model):
 class FilesAttachments(models.Model):
 	font_file_id = models.CharField(max_length=10, default='')
 	files_attachments = models.BinaryField(blank=True, editable=False)
+
+class MQTTLog(models.Model):
+	msg_id = models.AutoField(primary_key=True)
+	name = models.CharField(max_length=50, default='')
+	reference = models.CharField(max_length=50, default='')	
+	value = models.CharField(max_length=50, default='')
+	timeDate = models.CharField(max_length=50, default='')
+	timeHour = models.CharField(max_length=50, default='')
+
+class Topics(models.Model):
+	topic_id = models.AutoField(primary_key=True)
+	topic_name = models.CharField(max_length=50, default='')
+	topic_path = models.CharField(max_length=50, default='')		

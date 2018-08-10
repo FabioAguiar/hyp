@@ -1,4 +1,4 @@
-#!c:\users\fabyuu\dropbox\projetotcc\hyp_project\hyp_venv\scripts\python.exe
+#!c:\users\fabyuu\hyp\hyp\hyp_venv\scripts\python.exe
 from django.core import management
 
 if __name__ == "__main__":
