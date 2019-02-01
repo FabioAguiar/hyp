@@ -1,4 +1,4 @@
-#!c:\users\fabyuu\hyp\hyp\hyp_venv\scripts\python.exe
+#!c:\users\fabyuu\hyp\hyp_venv\scripts\python.exe
 #
 # Very simple serial terminal
 #

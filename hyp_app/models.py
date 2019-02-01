@@ -141,8 +141,8 @@ class MQTTLog(models.Model):
 	name = models.CharField(max_length=50, default='')
 	reference = models.CharField(max_length=50, default='')	
 	value = models.CharField(max_length=50, default='')
-	timeDate = models.CharField(max_length=50, default='')
-	timeHour = models.CharField(max_length=50, default='')
+	date = models.CharField(max_length=50, default='')
+	time = models.CharField(max_length=50, default='')
 
 class Topics(models.Model):
 	topic_id = models.AutoField(primary_key=True)

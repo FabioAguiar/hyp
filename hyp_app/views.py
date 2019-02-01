@@ -1,16 +1,11 @@
 from django.shortcuts import render, get_object_or_404
 from .models import Sensor, Actuator, LogDataSensor, LogDataActuator, Microcontroller, SensorConfiguration, ActuatorConfiguration, FilesAttachments, MQTTLog
-from .forms import SensorForm, ActuatorForm, MicrocontrollerForm
 from django.utils import timezone
+from .forms import SensorForm, ActuatorForm, MicrocontrollerForm
 from django.shortcuts import redirect
-from django.views.generic import TemplateView
-
 
 def control_panel(request):
     return render(request, 'hyp_app/control_panel.html', {})
-
-def plot_chart(request):
-    return
 
 def dashboard(request):
     return render(request, 'hyp_app/dashboard.html', {})

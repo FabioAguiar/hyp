@@ -1,4 +1,4 @@
-from time import gmtime, strftime, localtime
+from time import gmtime, strftime
 from . import log_storage_mqtt
 import paho.mqtt.client as mqtt
 import sys
@@ -20,10 +20,10 @@ def on_connect(client, userdata, flags, rc):
 
 #Callback - mensagem recebida do broker
 def on_message(client, userdata, msg):
-    dateTime = strftime("%Y-%m-%d", gmtime())
-    hourTime = strftime("%H:%M:%S", localtime(time.time()))    
+    dateTime = strftime("%Y-%m-%d %H:%M:%S", gmtime())
+    hourTime = strftime("%H:%M:%S", gmtime())    
 	#result = (theTime + "\t" + str(msg.payload))
-    print("[MSG RECEBIDA] Topic: "+msg.topic+" / Mensagem: "+str(msg.payload)+"hourTime: "+hourTime)
+    print("[MSG RECEBIDA] Topic: "+msg.topic+" / Mensagem: "+str(msg.payload)+"Time: "+theTime)
     log_storage_mqtt.writeToDb(dateTime, hourTime, msg.topic, str(msg.payload))
 
 

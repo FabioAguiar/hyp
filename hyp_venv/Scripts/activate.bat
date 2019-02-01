@@ -1,5 +1,5 @@
 @echo off
-set "VIRTUAL_ENV=C:\Users\Fabyuu\HYP\hyp\hyp_venv"
+set "VIRTUAL_ENV=C:\Users\Fabyuu\hyp\hyp_venv"
 
 if not defined PROMPT (
     set "PROMPT=$P$G"

@@ -4,7 +4,7 @@ import time
 dbFile = "db.sqlite3"
 
 
-def writeToDb(timeDate, timeHour, topic, payload):
+def writeToDb(dateTime, hourTime, topic, payload):
 	conn = sqlite3.connect(dbFile)
 	c = conn.cursor()
 	aux = topic[:-4]
@@ -21,7 +21,7 @@ def writeToDb(timeDate, timeHour, topic, payload):
 	reference = topic[len(aux)+2:]
 	#Inserção dos valores na base
 	print ("Writing to db...")
-	c.execute("INSERT INTO hyp_app_mqttlog (name,value,reference, timeDate, timeHour) VALUES (?,?,?,?,?)", ( name, value, reference, timeDate, timeHour))			
+	c.execute("INSERT INTO hyp_app_mqttlog (name,value,reference) VALUES (?,?,?)", ( name, value, reference))			
 	conn.commit()	
 	conn.close()
 	#return
