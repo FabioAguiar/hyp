@@ -6,6 +6,22 @@ from PIL import Image
 #class Cicle (models.Model):
 #	cicle_id = models.AutoField(primary_key=True)
 
+class Peripheral(models.Model):
+	peripheral_id = models.AutoField(primary_key=True)
+	name = models.CharField(max_length=50, default='')
+	technical_name = models.CharField(max_length=50, default='')
+	topic_base = models.CharField(max_length=50, default='')
+	type_peripheral = models.CharField(max_length=10, default='')		
+	topic_name = models.CharField(max_length=50, default='')		
+	specification = models.CharField(max_length=10, default='')
+	description = models.TextField(default='')
+	last_record = models.DateTimeField(blank=True, null=True)
+	last_record_state = models.CharField(max_length=10, default='')
+	mqtt_topic = models.CharField(max_length=50, default='')
+	is_activated = models.BooleanField(default=False)
+
+
+
 
 class Sensor(models.Model):
 	sensor_id = models.AutoField(primary_key=True)
@@ -20,7 +36,6 @@ class Sensor(models.Model):
 	sensor_photo = models.FileField(upload_to='sensor_photo', null='True', blank='True')
 	sensor_document_1 = models.FileField(upload_to='sensor_document_1', null='True', blank='True')
 	sensor_document_2 = models.FileField(upload_to='sensor_document_2', null='True', blank='True')
-	sensor_document_3 = models.FileField(upload_to='sensor_document_3', null='True', blank='True')
 	published_date = models.DateTimeField(blank=True, null=True)
 	#state_cicle1 = models.BooleanField(default=False)
 	#time_cicle1_begin = models.TimeField(blank=True, null=True)
@@ -146,5 +161,4 @@ class MQTTLog(models.Model):
 
 class Topics(models.Model):
 	topic_id = models.AutoField(primary_key=True)
-	topic_name = models.CharField(max_length=50, default='')
 	topic_path = models.CharField(max_length=50, default='')		

@@ -1,7 +1,7 @@
 from django.shortcuts import render, get_object_or_404
-from .models import Sensor, Actuator, LogDataSensor, LogDataActuator, Microcontroller, SensorConfiguration, ActuatorConfiguration, FilesAttachments, MQTTLog
+from .models import Peripheral, Sensor, Actuator, LogDataSensor, LogDataActuator, Microcontroller, SensorConfiguration, ActuatorConfiguration, FilesAttachments, MQTTLog
 from django.utils import timezone
-from .forms import SensorForm, ActuatorForm, MicrocontrollerForm
+from .forms import PeripheralForm, SensorForm, ActuatorForm, MicrocontrollerForm
 from django.shortcuts import redirect
 
 def control_panel(request):
@@ -9,6 +9,23 @@ def control_panel(request):
 
 def dashboard(request):
     return render(request, 'hyp_app/dashboard.html', {})
+
+def peripheral_new(request):
+    if request.method == "POST":
+        form = PeripheralForm(request.POST or None, request.FILES or None)
+        if form.is_valid():
+            peripheral = form.save(commit=False)
+            peripheral.author = request.user
+            #peripheral.published_date = timezone.now()
+            peripheral.save()
+            peripheral_detail = get_object_or_404(Peripheral, pk=pk)
+            return render(request, 'hyp_app/peripheral_edit.html', {'peripheral_detail': peripheral_detail})
+    else:
+        form = PeripheralForm()
+        
+    return render(request, 'hyp_app/new_peripheral.html', {'form': form})
+
+
 
 def sensor_detail(request, pk):
 	sensor = get_object_or_404(Sensor, pk=pk)

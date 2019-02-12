@@ -281,40 +281,14 @@
 	                        <li>
 	                            <a href="#"><i class="fa fa-microchip fa-fw"></i> Configuração dos dispositivos<span class="fa arrow"></span></a>
 	                            <ul class="nav nav-second-level">
-	                                <li>
-	                                    <a href="#">Sensor<span class="fa arrow"></span></a>
-	                                    <ul class="nav nav-third-level">
-	                                        <li>
-	                                            <a href="{% url 'sensor_new' %}">Adicionar</a>
-	                                        </li>
-	                                        <li>
-	                                            <a href="{% url 'sensor_list' %}">Listar</a>
-	                                        </li>
-	                                    </ul>
-	                                </li>
-	                                <li>
-	                                    <a href="#">Atuador<span class="fa arrow"></span></a>
-	                                    <ul class="nav nav-third-level">
-	                                        <li>
-	                                            <a href="{% url 'actuator_new' %}">Adicionar</a>
-	                                        </li>
-	                                        <li>
-	                                            <a href="{% url 'actuator_list' %}">Listar</a>
-	                                        </li>
-	                                    </ul>
-	                                </li> 
-	                                <li>
-	                                    <a href="#">Microcontrolador<span class="fa arrow"></span></a>
-	                                    <ul class="nav nav-third-level">
-	                                        <li>
-	                                            <a href="{% url 'microcontroller_new' %}">Adicionar</a>
-	                                        </li>
-	                                        <li>
-	                                            <a href="#">Listar</a>
-	                                        </li>
-	                                    </ul>
-	                                    <!-- /.nav-third-level -->
-	                                </li>                                                               
+			                        <ul class="nav nav-second-level">
+			                            <li>
+			                                <a href="{% url 'new_peripheral' %}">Adicionar</a>
+			                            </li>
+			                            <li>
+			                                <a href="buttons.html">Listar</a>
+			                            </li>
+			                        </ul>
 	                            </ul>
 	                            <!-- /.nav-second-level -->
 	                        </li>

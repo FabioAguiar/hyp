@@ -1,6 +1,31 @@
 from django import forms
 
-from .models import Sensor, Actuator, Microcontroller
+from .models import Peripheral, Sensor, Actuator, Microcontroller
+
+
+class PeripheralForm(forms.ModelForm):
+    
+
+    class Meta:
+        model = Peripheral
+        fields = ('type_peripheral', 'name', 'technical_name', 'topic_base', 'topic_name', 'specification', 'description', 'is_activated', 'last_record', 'last_record_state', 'mqtt_topic')
+
+    def __init__(self, *args, **kwargs):
+        super(PeripheralForm, self).__init__(*args, **kwargs)
+        self.fields['type_peripheral'] = forms.ChoiceField(choices=(('Sensor', 'Sensor'), ('Atuador', 'Atuador')))
+        self.fields['type_peripheral'].widget.attrs.update({'class' : 'form-control'})
+        self.fields['name'].widget.attrs.update({'class' : 'form-control'})
+        self.fields['technical_name'].widget.attrs.update({'class' : 'form-control'})
+        self.fields['topic_base'].widget.attrs.update({'class' : 'form-control'})
+        self.fields['specification'].widget.attrs.update({'class' : 'form-control'})
+        self.fields['description'].widget.attrs.update({'class' : 'form-control'})
+        self.fields['is_activated'].widget.attrs.update({'class' : 'form-control'})
+        self.fields['last_record'].widget.attrs.update({'class' : 'form-control'})
+        self.fields['last_record_state'].widget.attrs.update({'class' : 'form-control'})        
+        self.fields['mqtt_topic'].widget.attrs.update({'class' : 'form-control'})        
+        #self.fields['sensor_photo'] = widget.attrs.update({'class' : 'form-control'})
+
+
 
 
 class SensorForm(forms.ModelForm):
@@ -8,7 +33,7 @@ class SensorForm(forms.ModelForm):
 
     class Meta:
         model = Sensor
-        fields = ('name', 'technical_name', 'type_signal', 'lib_code', 'description', 'is_activated', 'digital_ports_quant', 'analog_ports_quant', 'sensor_photo', 'sensor_document_1', 'sensor_document_2', 'sensor_document_3')  
+        fields = ('name', 'technical_name', 'type_signal', 'lib_code', 'description', 'is_activated', 'digital_ports_quant', 'analog_ports_quant', 'sensor_photo', 'sensor_document_1', 'sensor_document_2')  
 
 
     def __init__(self, *args, **kwargs):
