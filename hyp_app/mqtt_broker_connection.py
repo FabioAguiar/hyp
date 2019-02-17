@@ -23,8 +23,8 @@ def on_message(client, userdata, msg):
     dateTime = strftime("%Y-%m-%d %H:%M:%S", gmtime())
     hourTime = strftime("%H:%M:%S", gmtime())    
 	#result = (theTime + "\t" + str(msg.payload))
-    print("[MSG RECEBIDA] Topic: "+msg.topic+" / Mensagem: "+str(msg.payload)+"Time: "+theTime)
-    log_storage_mqtt.writeToDb(dateTime, hourTime, msg.topic, str(msg.payload))
+    #print("[MSG RECEBIDA] Topic: "+msg.topic+" / Mensagem: "+str(msg.payload)+"Time: "+theTime)
+    #log_storage_mqtt.writeToDb(dateTime, hourTime, msg.topic, str(msg.payload))
 
 
 

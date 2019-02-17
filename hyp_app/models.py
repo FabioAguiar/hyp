@@ -15,10 +15,10 @@ class Peripheral(models.Model):
 	topic_name = models.CharField(max_length=50, default='')		
 	specification = models.CharField(max_length=10, default='')
 	description = models.TextField(default='')
-	last_record = models.DateTimeField(blank=True, null=True)
-	last_record_state = models.CharField(max_length=10, default='')
 	mqtt_topic = models.CharField(max_length=50, default='')
 	is_activated = models.BooleanField(default=False)
+	last_record = models.CharField(max_length=100, default='', null=True)
+	last_record_state = models.CharField(max_length=10, default='')
 
 
 

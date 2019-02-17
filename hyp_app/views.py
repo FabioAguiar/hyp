@@ -10,20 +10,60 @@ def control_panel(request):
 def dashboard(request):
     return render(request, 'hyp_app/dashboard.html', {})
 
-def peripheral_new(request):
+
+def peripheral_edit(request, pk):
+    peripheral = get_object_or_404(Peripheral, pk=pk)
     if request.method == "POST":
-        form = PeripheralForm(request.POST or None, request.FILES or None)
+        form = PeripheralForm(request.POST, instance=peripheral)
+        print(form)
         if form.is_valid():
             peripheral = form.save(commit=False)
             peripheral.author = request.user
-            #peripheral.published_date = timezone.now()
             peripheral.save()
-            peripheral_detail = get_object_or_404(Peripheral, pk=pk)
-            return render(request, 'hyp_app/peripheral_edit.html', {'peripheral_detail': peripheral_detail})
+            return redirect('peripheral_detail', pk=peripheral.pk)
+    else:
+        form = PeripheralForm(instance=peripheral)
+    return render(request, 'hyp_app/peripheral_edit.html', {'peripheral': peripheral})    
+
+
+
+def peripheral_detail(request, pk):
+    print("peripheral_detail")    
+    peripheral = get_object_or_404(Peripheral, pk=pk)
+    return render(request, 'hyp_app/peripheral_detail.html', {'peripheral': peripheral})
+
+
+
+
+def peripheral_new(request):
+    if request.method == "POST":
+        form = PeripheralForm(request.POST)
+        if form.is_valid():
+            peripheral = form.save(commit=False)
+            peripheral.author = request.user
+            peripheral.save()
+            return redirect('peripheral_detail', pk=peripheral.pk)
     else:
         form = PeripheralForm()
         
-    return render(request, 'hyp_app/new_peripheral.html', {'form': form})
+    return render(request, 'hyp_app/peripheral_new.html', {'form': form})
+
+
+#def peripheral_edit(request, pk):
+#    print("AEW")
+#    peripheral = get_object_or_404(Peripheral, pk=pk)
+#    if request.method == "POST":
+#        form = PeripheralForm(request.POST, instance=peripheral)
+#        if form.is_valid():
+#            peripheral = form.save(commit=False)
+#            peripheral.author = request.user
+#            #peripheral.published_date = timezone.now()
+#            peripheral.save()
+#            return redirect('peripheral_detail', pk=peripheral.pk)
+#    else:
+#        form = PeripheralForm(instance=peripheral)
+#    return render(request, 'hyp_app/detail_peripheral.html', {'form': form})
+
 
 
 

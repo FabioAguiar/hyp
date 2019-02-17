@@ -5,7 +5,10 @@ from django.conf.urls.static import static
 
 urlpatterns = [
     url(r'^$', views.dashboard, name='dashboard'),   
-	url(r'^peripheral/new/$', views.peripheral_new, name='new_peripheral'),     
+	url(r'^peripheral/new/$', views.peripheral_new, name='peripheral_new'),     
+	url(r'^peripheral/detail/(?P<pk>\d+)/$', views.peripheral_detail, name='peripheral_detail'),     
+	url(r'^peripheral/detail/(?P<pk>\d+)/edit/$', views.peripheral_edit, name='peripheral_edit'),
+	
     url(r'^sensor/(?P<pk>\d+)/$', views.sensor_detail, name='sensor_detail'),
     url(r'^sensor/new/$', views.sensor_new, name='sensor_new'),
 	url(r'^sensor/(?P<pk>\d+)/edit/$', views.sensor_edit, name='sensor_edit'),

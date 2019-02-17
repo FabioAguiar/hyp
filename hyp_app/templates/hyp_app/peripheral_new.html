@@ -1,32 +1,41 @@
 {% extends 'hyp_app/base.html' %}
+{% load staticfiles %}
 
 {% block content %}
     <div class="col-lg-12">
          <h1 class="page-header">Adicionar periférico</h1>
         <div class="panel panel-default">
             <div class="panel-body">
-                <form method="POST" enctype="multipart/form-data" class="post-form">{% csrf_token %}
+                <form method="POST" enctype="multipart/form-data" class="post-form" id="id_peripheral_form">{% csrf_token %}
                     <div class="col-lg-6">
                         <div class="form-group">
                             <label>Nome</label>
                             {{ form.name }}
                         </div>
-                        <div class="form-group">
-                            <label>Tipo do periférico</label>
-                            {{ form.type_peripheral }}
+                        <div class="row">
+                            <div class="col-sm-6">                            
+                                <div class="form-group">
+                                    <label>Base do tópico MQTT</label>
+                                    {{ form.topic_base }}                    
+                                </div>
+                            </div>                
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label>Tipo do periférico</label>
+                                    {{ form.type_peripheral }}
+                                </div>
+                            </div>                                    
                         </div>
                         <div class="form-group">
                             <label>Descrição</label>
                             {{ form.description }}
                         </div>
                         <div class="form-group">
-                            <label>Last Record: Esconder</label>
-                            {{ form.last_record }}                    
+                            {{ form.last_record_state.as_hidden  }}                    
                         </div>
                         <div class="form-group">
-                            <label>Last Record State: Esconder</label>
-                            {{ form.last_record_state }}                    
-                        </div>
+                            {{ form.last_record.as_hidden  }}                    
+                        </div>                        
                     </div>
                     <div class="col-lg-6">
                         <div class="form-group">
@@ -36,8 +45,8 @@
                         <div class="row">
                             <div class="col-sm-6">                            
                                 <div class="form-group">
-                                    <label>Base do tópico</label>
-                                    {{ form.topic_base }}                    
+                                    <label>Nome do tópico MQTT</label>
+                                    {{ form.topic_name }}
                                 </div>
                             </div>                
                             <div class="col-sm-6">
@@ -48,7 +57,7 @@
                             </div>                                    
                         </div>
                         <div class="form-group">
-                            <label>MQTT Topic: travar</label>
+                            <label>MQTT Tópico</label>
                                 {{ form.mqtt_topic }}                    
                         </div>                        
                         <div class="form-group">
@@ -73,5 +82,8 @@
 
 {% block jsimport %}
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.js"></script>
+
+
+<script src="{% static 'js/validations/peripheral_new.js' %}"></script>
 
 {% endblock %}
