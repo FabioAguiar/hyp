@@ -87,9 +87,30 @@
                                 <div class="col-lg-6">
                                     <a class="btn btn-primary btn-lg" href="{% url 'peripheral_edit' pk=peripheral.pk %}" id="id_editar_btn">Editar</a>
                                 </div>
-                                <div class="col-lg-6">                  
-	    							<button type="button" class="btn btn-primary btn-lg btn-danger">Excluir</button>
+                                <div class="col-lg-6">                   
+	    							<button type="button" class="btn btn-primary btn-lg btn-danger" data-toggle="modal" data-target="#modalConfirm">Excluir</button>
                                 </div>
+                                <!-- Modal -->
+                                <div class="modal fade" id="modalConfirm" tabindex="-1" role="dialog" aria-labelledby="modalConfirmLabel" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                                <h4 class="modal-title" id="modalConfirmLabel">Confirmar exclusão de periférico</h4>
+                                            </div>
+                                            <div class="modal-body">
+                                                Tem certeza que deseja excluir este periférico do banco de dados?
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
+                                                <a class="btn btn-primary btn-danger" href="{% url 'peripheral_remove' pk=peripheral.pk %}" id="id_excluir_btn">Excluir periférico</a>
+                                            </div>  
+                                        </div>
+                                        <!-- /.modal-content -->
+                                    </div>
+                                    <!-- /.modal-dialog -->
+                                </div>
+                                <!-- /.modal -->
                             </div>  
 
                         </div>              
