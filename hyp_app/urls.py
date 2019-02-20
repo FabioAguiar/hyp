@@ -9,5 +9,7 @@ urlpatterns = [
 	url(r'^peripheral/detail/(?P<pk>\d+)/$', views.peripheral_detail, name='peripheral_detail'),     
 	url(r'^peripheral/detail/(?P<pk>\d+)/edit/$', views.peripheral_edit, name='peripheral_edit'),
 	url(r'^peripheral/(?P<pk>\d+)/remove/$', views.peripheral_remove, name='peripheral_remove'),
+	url(r'^peripheral/datatable/$', views.peripheral_list, name='peripheral_datatable'),     	
 	url(r'^control/panel/$', views.control_panel, name='control_panel'),
+	url(r'^weather/station/$', views.weather_station, name='weather_station'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -48,3 +48,10 @@ def peripheral_remove(request, pk):
     peripheral = get_object_or_404(Peripheral, pk=pk)
     peripheral.delete()
     return redirect('peripheral_new')
+
+def peripheral_list(request):
+    peripherals = Peripheral.objects.all()
+    return render(request, 'hyp_app/peripheral_datatable.html', {'peripherals': peripherals})
+
+def weather_station(request):
+    return render(request, 'hyp_app/weather_station.html', { })
