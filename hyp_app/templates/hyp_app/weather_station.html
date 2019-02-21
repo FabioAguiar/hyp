@@ -3,7 +3,7 @@
 
 {% block cssimport %}
         <!-- Morris Charts CSS -->
-        <link href="{% static 'css/morrisjs/morris.css' %}" rel="stylesheet">
+        <script src="{% static 'js/chart/utils.js' %}"></script>
 {% endblock %}
 
 {% block content %}
@@ -15,7 +15,7 @@
                     <div class="col-lg-12">
                         <div class="panel panel-default">
                             <div class="panel-heading">
-                                Open Weather Map
+                                <a href="https://openweathermap.org/city/3395077">Open Weather Map</a>
                             </div>
                             <div class="panel-body">
                                 <div class="table-responsive">
@@ -68,7 +68,7 @@
                     <div class="col-lg-12">
                         <div class="panel panel-default">
                             <div class="panel-heading">
-                                HG Brasil
+                                <a href="https://hgbrasil.com/status/weather/">HG Brasil</a>
                             </div>
                             <div class="panel-body">
                                 <div class="col-lg-4">
@@ -110,16 +110,8 @@
                                 <div class="col-lg-8">
                                     <div class="table-responsive">
                                         <div class="panel panel-default">
-                                            <div class="panel-heading">
-                                                Area Chart Example
-                                            </div>
-                                            <!-- /.panel-heading -->
-                                            <div class="panel-body">
-                                                <div id="morris-area-chart"></div>
-                                            </div>
-                                            <!-- /.panel-body -->
+                                            <canvas id="canvas" width="400" height="250"></canvas>                                           
                                         </div>
-                                        <!-- /.panel -->
                                     </div>
                                 </div>
                             </div>                
@@ -134,10 +126,9 @@
 
 {% block jsimport %}
 
-<script src="{% static 'js/weather/weather_station.js' %}"></script>
-<script src="{% static 'js/morrisjs/morris.min.js' %}"></script>
-<script src="{% static 'js/raphael/raphael.min.js' %}"></script>
-<script src="{% static 'js/morrisjs/morris-data.js' %}"></script>
+<script src="{% static 'js/chart/chart.js' %}"></script>
 
+
+<script src="{% static 'js/weather/weather_station.js' %}"></script>
 
 {% endblock %}
