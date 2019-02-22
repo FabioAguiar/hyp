@@ -3,8 +3,7 @@
 
 
 {% block cssimport %}
-    	<!-- Morris Charts CSS -->
-    	<link href="{% static 'css/morrisjs/morris.css' %}" rel="stylesheet">
+
 {% endblock %}
 
 
@@ -13,116 +12,95 @@
                 <div class="col-lg-12">
                     <h1 class="page-header">Painel de bordo</h1>
                 </div>
-                <!-- /.col-lg-12 -->
             </div>
-            <!-- /.row -->
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="panel panel-default">
-                        <div class="panel-heading">
-                            Line Chart Example
-                        </div>
-                        <!-- /.panel-heading -->
-                        <div class="panel-body">
-                            <div class="flot-chart">
-                                <div class="flot-chart-content" id="flot-line-chart"></div>
-                            </div>
-                        </div>
-                        <!-- /.panel-body -->
-                    </div>
-                    <!-- /.panel -->
+            
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    Sensores
                 </div>
-                <!-- /.col-lg-12 -->
-                <div class="col-lg-6">
-                    <div class="panel panel-default">
-                        <div class="panel-heading">
-                            Pie Chart Example
-                        </div>
-                        <!-- /.panel-heading -->
-                        <div class="panel-body">
-                            <div class="flot-chart">
-                                <div class="flot-chart-content" id="flot-pie-chart"></div>
-                            </div>
-                        </div>
-                        <!-- /.panel-body -->
+                <div class="panel-body">
+                    <div class="row">
+                        {% for peripheral in peripherals %}
+                            {% if peripheral.type_peripheral == "sensor" %}
+                                <div class="col-lg-4 col-md-6">
+                                    <div class="panel panel-primary">
+                                        <div class="panel-heading">
+                                            <div class="row">
+                                                <div class="col-xs-3">
+                                                    <i class="fa fa-dot-circle fa-5x"></i>
+                                                </div>
+                                                <div class="col-xs-9 text-right">
+                                                    <div class="huge" id="{{ peripheral.mqtt_topic }}">{{ peripheral.last_record_state }}</div>
+                                                    <div>{{ peripheral.name }}</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <a href="{% url 'peripheral_detail' pk=peripheral.pk %}">
+                                            <div class="panel-footer">
+                                                <span class="pull-left">Ver detalhes do sensor</span>
+                                                <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                                                <div class="clearfix"></div>
+                                            </div>
+                                        </a>
+                                    </div>
+                                </div>
+                            {% endif %}
+                        {% endfor %}
                     </div>
-                    <!-- /.panel -->
                 </div>
-                <!-- /.col-lg-6 -->
-                <div class="col-lg-6">
-                    <div class="panel panel-default">
-                        <div class="panel-heading">
-                            Multiple Axes Line Chart Example
-                        </div>
-                        <!-- /.panel-heading -->
-                        <div class="panel-body">
-                            <div class="flot-chart">
-                                <div class="flot-chart-content" id="flot-line-chart-multi"></div>
-                            </div>
-                        </div>
-                        <!-- /.panel-body -->
-                    </div>
-                    <!-- /.panel -->
-                </div>
-                <!-- /.col-lg-6 -->
-                <div class="col-lg-6">
-                    <div class="panel panel-default">
-                        <div class="panel-heading">
-                            Moving Line Chart Example
-                        </div>
-                        <!-- /.panel-heading -->
-                        <div class="panel-body">
-                            <div class="flot-chart">
-                                <div class="flot-chart-content" id="flot-line-chart-moving"></div>
-                            </div>
-                        </div>
-                        <!-- /.panel-body -->
-                    </div>
-                    <!-- /.panel -->
-                </div>
-                <!-- /.col-lg-6 -->
-                <div class="col-lg-6">
-                    <div class="panel panel-default">
-                        <div class="panel-heading">
-                            Bar Chart Example
-                        </div>
-                        <!-- /.panel-heading -->
-                        <div class="panel-body">
-                            <div class="flot-chart">
-                                <div class="flot-chart-content" id="flot-bar-chart"></div>
-                            </div>
-                        </div>
-                        <!-- /.panel-body -->
-                    </div>
-                    <!-- /.panel -->
-                </div>
-                <!-- /.col-lg-6 -->
-                <div class="col-lg-12">
-                    <div class="panel panel-default">
-                        <div class="panel-heading">
-                            Flot Charts Usage
-                        </div>
-                        <!-- /.panel-heading -->
-                        <div class="panel-body">
-                            <p>Flot is a pure JavaScript plotting library for jQuery, with a focus on simple usage, attractive looks, and interactive features. In SB Admin, we are using the most recent version of Flot along with a few plugins to enhance the user experience. The Flot plugins being used are the tooltip plugin for hoverable tooltips, and the resize plugin for fully responsive charts. The documentation for Flot Charts is available on their website, <a target="_blank" href="http://www.flotcharts.org/">http://www.flotcharts.org/</a>.</p>
-                            <a target="_blank" class="btn btn-default btn-lg btn-block" href="http://www.flotcharts.org/">View Flot Charts Documentation</a>
-                        </div>
-                        <!-- /.panel-body -->
-                    </div>
-                    <!-- /.panel -->
-                </div>
-                <!-- /.col-lg-6 -->
             </div>
-            <!-- /.row -->
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    Atuadores
+                </div>
+                <div class="panel-body">
+                    <div class="row">
+                        {% for peripheral in peripherals %}
+                            {% if peripheral.type_peripheral == "atuador" %}
+                                <div class="col-lg-4 col-md-6">
+                                    <form method ="GET" >
+                                    <a href="{% url 'peripheral_actuador' pk=peripheral.pk %}">                                      
+                                    {% if peripheral.last_record_state == '1.0' %}
+                                    <div class="panel panel panel-green">
+                                    {% elif peripheral.last_record_state == '0.0' %}
+                                    <div class="panel panel panel-red">
+                                    {% endif %}                                  
+                                        <div class="panel-heading">
+                                            <div class="row">
+                                                <div class="col-xs-3">
+                                                    <i class="fa fa-circle fa-5x"></i>
+                                                </div>
+                                                <div class="col-xs-9 text-right">
+                                                    {% if peripheral.last_record_state == '1.0'%}
+                                                    <div class="huge">Ligado</div>
+                                                    {% elif peripheral.last_record_state == '0.0'%}
+                                                    <div class="huge">Desligado</div>
+                                                    {% endif %}
+                                                    <div> {{ peripheral.name }} </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </a>
+                                    </form>
+                                        <a href="{% url 'peripheral_detail' pk=peripheral.pk %}">
+                                            <div class="panel-footer">
+                                                <span class="pull-left">Ver detalhes do atuador</span>
+                                                <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                                                <div class="clearfix"></div>
+                                            </div>
+                                        </a>
+                                    </div>
+                                </div>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+
+
 {% endblock %}
 
 
 {% block jsimport %}
-	    <script src="{% static 'js/flot/excanvas.min.js' %}"></script>
-	    <script src="{% static 'js/flot/jquery.flot.js' %}"></script>
-	    <script src="{% static 'js/flot/jquery.flot.pie.js' %}"></script>
-	    <script src="{% static 'js/flot/jquery.flot.resize.js' %}"></script>	    	    
-	    <script src="{% static 'js/flot/jquery.flot.time.js' %}"></script>	    	    
-	    <script src="{% static 'js/flot-tooltip/jquery.flot.tooltip.min.js' %}"></script>	    	    
-	    <script src="{% static 'data/flot-data.js' %}"></script>	    	    
+    
 {% endblock %}

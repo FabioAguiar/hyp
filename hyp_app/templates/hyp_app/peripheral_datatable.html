@@ -41,7 +41,7 @@
                                     <tbody>
                                         {% for peripheral in peripherals %}
                                         <tr class="odd gradeX">
-                                            <td> {{ peripheral.name }} </td>
+                                            <td> <a href="{% url 'peripheral_detail' pk=peripheral.pk %}"> {{ peripheral.name }} </a> </td>
                                             <td> {{ peripheral.technical_name }} </td>
                                             <td> {{ peripheral.type_peripheral }} </td>
                                             <td class="center"> {{ peripheral.mqtt_topic }} </td>

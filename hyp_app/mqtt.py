@@ -1,13 +1,13 @@
 import paho.mqtt.client as mqtt
 import sys
 from time import gmtime, strftime
-from . import log_storage_mqtt
+from . import mqtt_storage
 
 #definicoes: 
 Broker = "m14.cloudmqtt.com"
 PortaBroker = 14167
 KeepAliveBroker = 60
-TopicoSubscribe = "grow/#" #dica: troque o nome do topico por algo "unico", 
+TopicoSubscribe = "grow/#" #dica: trocar o nome do topico por algo "unico", 
                                     #Dessa maneira, ninguem ira saber seu topico de
                                     #subscribe e interferir em seus testes
 
@@ -23,9 +23,13 @@ def on_message(client, userdata, msg):
     dateTime = strftime("%Y-%m-%d %H:%M:%S", gmtime())
     hourTime = strftime("%H:%M:%S", gmtime()) 
     #result = (theTime + "\t" + str(msg.payload))
-    #print("[MSG RECEBIDA] Topic: "+msg.topic+" / Mensagem: "+str(msg.payload)+"Time: ")
-    #log_storage_mqtt.writeToDb(dateTime, hourTime, msg.topic, str(msg.payload))
+    #print("[MSG RECEBIDA] Topic: "+msg.topic+" Mensagem: "+str(msg.payload))
+    mqtt_storage.writeToDb(msg.topic, str(msg.payload))
 
+
+def on_publish(client,userdata,result):             #create function for callback
+    print("data published \n")
+    pass
 
 
 #programa principal:
@@ -35,7 +39,7 @@ try:
         client = mqtt.Client()
         client.on_connect = on_connect
         client.on_message = on_message
-        #client.on_publish = on_publish
+        client.on_publish = on_publish
         #client.on_subscribe = on_subscribe  
 
         client.username_pw_set('cxhovvsp', 'v-nT9GcH_-Cr')

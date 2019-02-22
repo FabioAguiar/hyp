@@ -28,7 +28,13 @@ $(function(){
 	$("#id_type_peripheral").change(function(){
 		type_peripheral = $(this).val();
 		if(type_peripheral.length > 0){
-			type_peripheral += '/';
+			if(type_peripheral == 'atuador'){
+				type_peripheral = 'A';
+				$("#id_specification").prop("disabled", true);
+			}else{
+				$("#id_specification").prop("disabled", false);
+				type_peripheral += '/';
+			}
 		}	
 		MQTTTopic();
 	});
@@ -37,8 +43,10 @@ $(function(){
 	$("#id_topic_name").keyup(function(){
 		topic_name = $(this).val();
 		if(topic_name.length > 0){
-			topic_name += '/';
-		}	
+			if(type_peripheral != 'A'){
+				topic_name += '/';
+			}
+		}
 		MQTTTopic();
 		
 	});
@@ -54,6 +62,12 @@ $(function(){
 
 	$('#id_peripheral_form').submit(function(){
 	    $("#id_peripheral_form :disabled").removeAttr('disabled');
+
+	    console.log(type_peripheral);
+
+		if(type_peripheral == 'A'){
+			$("#id_specification").val("null");
+		}
 	});
 
 	function MQTTTopic(topic_val){

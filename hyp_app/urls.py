@@ -4,7 +4,8 @@ from django.conf import settings
 from django.conf.urls.static import static 
 
 urlpatterns = [
-    url(r'^$', views.dashboard, name='dashboard'),   
+    url(r'^$', views.dashboard, name='dashboard'),
+	url(r'^peripheral/actuador/(?P<pk>\d+)/$', views.peripheral_actuador, name='peripheral_actuador'),    
 	url(r'^peripheral/new/$', views.peripheral_new, name='peripheral_new'),     
 	url(r'^peripheral/detail/(?P<pk>\d+)/$', views.peripheral_detail, name='peripheral_detail'),     
 	url(r'^peripheral/detail/(?P<pk>\d+)/edit/$', views.peripheral_edit, name='peripheral_edit'),

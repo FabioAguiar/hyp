@@ -3,12 +3,30 @@ from .models import Peripheral
 from django.utils import timezone
 from .forms import PeripheralForm
 from django.shortcuts import redirect
+from . import mqtt
 
 def control_panel(request):
     return render(request, 'hyp_app/control_panel.html', {})
 
 def dashboard(request):
-    return render(request, 'hyp_app/dashboard.html', {})
+    peripherals = Peripheral.objects.all()
+    return render(request, 'hyp_app/dashboard.html', {'peripherals': peripherals})
+
+def peripheral_actuador(request, pk):
+    peripherals = Peripheral.objects.all()    
+    peripheral = Peripheral.objects.get(pk=pk)
+
+    if peripheral.last_record_state == "1.0":
+        peripheral.last_record_state = "0.0"
+    else:
+        peripheral.last_record_state = "1.0"
+
+    peripheral.author = request.user
+    peripheral.save()
+
+    mqtt.client.publish(peripheral.mqtt_topic, peripheral.last_record_state[:-2])
+
+    return render(request, 'hyp_app/dashboard.html', {'peripherals': peripherals})
 
 
 def peripheral_new(request):
@@ -24,8 +42,7 @@ def peripheral_new(request):
         
     return render(request, 'hyp_app/peripheral_new.html', {'form': form})
 
-def peripheral_detail(request, pk):
-    print("peripheral_detail")    
+def peripheral_detail(request, pk): 
     peripheral = get_object_or_404(Peripheral, pk=pk)
     return render(request, 'hyp_app/peripheral_detail.html', {'peripheral': peripheral})
 
@@ -33,7 +50,6 @@ def peripheral_edit(request, pk):
     peripheral = get_object_or_404(Peripheral, pk=pk)
     if request.method == "POST":
         form = PeripheralForm(request.POST, instance=peripheral)
-        print(form)
         if form.is_valid():
             peripheral = form.save(commit=False)
             peripheral.author = request.user
