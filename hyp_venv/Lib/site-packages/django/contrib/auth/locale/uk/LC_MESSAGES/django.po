@@ -8,15 +8,16 @@
 # Max V. Stotsky <transifex@ms.pereslavl.ru>, 2014
 # captain_m4l <qotsaman@gmail.com>, 2012
 # Mykola Zamkovoi <nickzam@gmail.com>, 2014
-# Oleksandr Bolotov <oleksandr.bolotov@gmail.com>, 2013
+# Alex Bolotov <oleksandr.bolotov@gmail.com>, 2013
 # Vitaliy Kozlovskyi <ubombi@gmail.com>, 2015
+# Zoriana Zaiats, 2016-2017
 msgid ""
 msgstr ""
 "Project-Id-Version: django\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-10-10 15:10+0200\n"
-"PO-Revision-Date: 2015-12-03 13:45+0000\n"
-"Last-Translator: Vitaliy Kozlovskyi <ubombi@gmail.com>\n"
+"POT-Creation-Date: 2017-09-24 13:46+0200\n"
+"PO-Revision-Date: 2017-11-08 15:37+0000\n"
+"Last-Translator: Zoriana Zaiats\n"
 "Language-Team: Ukrainian (http://www.transifex.com/django/django/language/"
 "uk/)\n"
 "MIME-Version: 1.0\n"
@@ -75,12 +76,11 @@ msgstr "Введіть той же пароль, що і раніше, для п
 
 msgid ""
 "Raw passwords are not stored, so there is no way to see this user's "
-"password, but you can change the password using <a href=\"../password/"
-"\">this form</a>."
+"password, but you can change the password using <a href=\"{}\">this form</a>."
 msgstr ""
-"Відкритими паролі не зберігаються, тому немає можливості їх переглянути, але "
-"ви можете змінити пароль використовуючи <a href=\"../password/\">цю форму</"
-"a>."
+"Паролі не зберігаються у відкритому вигляді, тому немає можливості "
+"переглянути пароль цього користувача, але ви можете змінити пароль за "
+"допомогою <a href=\"{}\">цієї форми</a>."
 
 #, python-format
 msgid ""
@@ -123,6 +123,21 @@ msgstr "сіль"
 
 msgid "hash"
 msgstr "хеш"
+
+msgid "variety"
+msgstr "різноманітність"
+
+msgid "version"
+msgstr "версія"
+
+msgid "memory cost"
+msgstr "витрати пам’яті"
+
+msgid "time cost"
+msgstr "витрати часу"
+
+msgid "parallelism"
+msgstr "паралелізм"
 
 msgid "work factor"
 msgstr "робочий фактор"
@@ -175,17 +190,9 @@ msgstr "Особливі права доступу для цього корис�
 msgid "username"
 msgstr "ім'я користувача"
 
-msgid "Required. 30 characters or fewer. Letters, digits and @/./+/-/_ only."
+msgid "Required. 150 characters or fewer. Letters, digits and @/./+/-/_ only."
 msgstr ""
-"Обов'язкове поле. 30 або менше символів . Тільки букви, цифри, а також "
-"символи: @/./+/-/_"
-
-msgid ""
-"Enter a valid username. This value may contain only letters, numbers and @/./"
-"+/-/_ characters."
-msgstr ""
-"Введіть коректне ім'я користувача. Значення цього поля може складатися лише "
-"з літер, цифр, а також з символів: @/./+/-/_."
+"Необхідно: 150 або менше символів. тільки букви, цифри та  знаки @/./+/-/_."
 
 msgid "A user with that username already exists."
 msgstr "Користувач з таким ім'ям вже існує."
@@ -267,6 +274,20 @@ msgstr "Ваш пароль не може складається лише із �
 #, python-format
 msgid "Password reset on %(site_name)s"
 msgstr "Скидання пароля на %(site_name)s"
+
+msgid ""
+"Enter a valid username. This value may contain only English letters, "
+"numbers, and @/./+/-/_ characters."
+msgstr ""
+"Введіть коректне ім'я користувача. Значення цього поля може складатися лише "
+"з англійських літер, цифр, а також з символів: @/./+/-/_."
+
+msgid ""
+"Enter a valid username. This value may contain only letters, numbers, and "
+"@/./+/-/_ characters."
+msgstr ""
+"Введіть коректне ім'я користувача. Значення цього поля може складатися лише "
+"з літер, цифр, а також з символів: @/./+/-/_."
 
 msgid "Logged out"
 msgstr "Вихід"

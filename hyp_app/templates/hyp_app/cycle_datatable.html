@@ -1,0 +1,86 @@
+{% extends 'hyp_app/base.html' %}
+{% load staticfiles %}
+
+{% block cssimport %}
+
+    <!-- Social Buttons CSS -->
+	<link href="{% static 'css/bootstrap-social/bootstrap-social.css' %}" rel="stylesheet" >
+
+    <!-- DataTables Responsive CSS -->
+    <link href="{% static 'css/datatables-responsive/dataTables.responsive.css' %}" rel="stylesheet" >
+
+    <!-- DataTables CSS -->        
+    <link href="{% static 'css/datatables-plugins/dataTables.bootstrap.css' %}" rel="stylesheet" >
+
+{% endblock %}
+
+{% block content %}
+    <div class="col-lg-12">
+	    <h1 class="page-header">Detalhes do periférico</h1>
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <!-- datatable inicio -->
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                DataTables detalhes do periférico
+                            </div>
+                            <!-- /.panel-heading -->
+                            <div class="panel-body">
+                                <table width="100%" class="table table-striped table-bordered table-hover" id="dataTables-peripheral-detail">
+                                    <thead>
+                                        <tr>
+                                            <th>Nome</th>
+                                            <th>Nome técnico</th>
+                                            <th>Tipo do periférico</th>
+                                            <th>MQTT Tópico</th>
+                                            <th>Ativo</th> 
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for peripheral in peripherals %}
+                                        <tr class="odd gradeX">
+                                            <td> <a href="{% url 'peripheral_detail' pk=peripheral.pk %}"> {{ peripheral.name }} </a> </td>
+                                            <td> {{ peripheral.technical_name }} </td>
+                                            <td> {{ peripheral.type_peripheral }} </td>
+                                            <td class="center"> {{ peripheral.mqtt_topic }} </td>
+                                            <td class="center"> {{ peripheral.is_activated }} </td>
+                                        </tr>
+                                        {% endfor %}
+
+                                    </tbody>   
+                                </table>
+                            </div>
+                            <!-- /.panel-body -->
+                        </div>
+                        <!-- /.panel -->
+                    </div>
+                    <!-- /.col-lg-12 -->
+                </div>
+                <!-- /.row -->
+            </div>      
+        </div>
+    </div>
+{% endblock %}
+
+{% block jsimport %}
+
+
+    <!-- DataTables JavaScript -->
+    <script src="{% static 'js/datatables/js/jquery.dataTables.min.js' %}"></script>
+    <script src="{% static 'js/datatables-plugins/dataTables.bootstrap.min.js' %}"></script>        
+    <script src="{% static 'js/datatables-responsive/dataTables.responsive.js' %}"></script>
+
+
+    <!-- Page-Level Demo Scripts - Tables - Use for reference -->
+    <script>
+    $(document).ready(function() {
+        $('#dataTables-peripheral-detail').DataTable({
+            responsive: true
+        });
+    });
+    </script>
+
+
+{% endblock %}
