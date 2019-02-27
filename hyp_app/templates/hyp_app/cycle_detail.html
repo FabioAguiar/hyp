@@ -3,118 +3,114 @@
 
 {% block cssimport %}
 
-    <!-- Social Buttons CSS -->
-	<link href="{% static 'css/bootstrap-social/bootstrap-social.css' %}" rel="stylesheet" >
+    <link href="{% static 'css/bootstrap-datetimepicker/bootstrap-datetimepicker.min.css' %}" rel="stylesheet" >
 
 {% endblock %}
 
 {% block content %}
-    <div class="col-lg-12">
-	    <h1 class="page-header">Detalhes do periférico</h1>
+     <div class="col-lg-12">
+         <h1 class="page-header">Adicionar Ciclo</h1>
         <div class="panel panel-default">
             <div class="panel-body">
-                <form method="POST" enctype="multipart/form-data" class="post-form" id="id_peripheral_form">{% csrf_token %}
-                    <div class="col-lg-6">
-                        <div class="form-group">
-                            <label>Nome</label>
-                            <input class="form-control" id="id_name" maxlength="50" name="name" type="text" value="{{ peripheral.name }}" disabled/>
-                        </div>
-                        <div class="row">
-                            <div class="col-sm-6">                            
+                <div class="row">
+                    <div class="col-lg-12">
+                        <form method="POST" enctype="multipart/form-data" class="post-form" id="id_cycle_form">{% csrf_token %}
+                            <div class="col-lg-6">
                                 <div class="form-group">
-                                    <label>Base do tópico MQTT</label>
-                                    <input class="form-control" id="id_topic_base" maxlength="50" name="topic_base" type="text" value="{{ peripheral.topic_base }}" disabled/>
+                                    <label>Título</label>
+                                    {{ form.title }}
                                 </div>
-                            </div>                
-                            <div class="col-sm-6">
                                 <div class="form-group">
-                                    <label>Tipo do periférico</label>
-                                    <select class="form-control" id="id_type_peripheral" name="type_peripheral" value="{{ peripheral.type_peripheral }}" disabled>
-										<option value="sensor">Sensor</option>
-										<option value="atuador">Atuador</option>
-									</select>
-                                </div>
-                            </div>                                    
-                        </div>
-                        <div class="form-group">
-                            <label>Descrição</label>
-                            <textarea class="form-control" cols="40" id="id_description" name="description" rows="10" disabled>{{ peripheral.description }}</textarea>
-                        </div>
-                        <div class="form-group">
-                            {{ peripheral.last_record_state.as_hidden  }}                    
-                        </div>
-                        <div class="form-group">
-                            {{ peripheral.last_record.as_hidden  }}                    
-                        </div>                        
-                    </div>
-                    <div class="col-lg-6">
-                        <div class="form-group">
-                            <label>Nome técnico</label>
-                            <input class="form-control" id="id_technical_name" maxlength="50" name="technical_name" type="text" value="{{ peripheral.technical_name }}" disabled />
-                        </div>                        
-                        <div class="row">
-                            <div class="col-sm-6">                            
-                                <div class="form-group">
-                                    <label>Nome do tópico MQTT</label>
-                                    <input class="form-control" id="id_topic_name" maxlength="50" name="topic_name" type="text" value="{{ peripheral.topic_name }}" disabled />
-                                </div>
-                            </div>                
-                            <div class="col-sm-6">
-                                <div class="form-group">
-                                    <label>Especificação</label>
-                                    <input class="form-control" id="id_specification" maxlength="10" name="specification" type="text" value="{{ peripheral.specification }}" disabled />
-                                </div>
-                            </div>                                    
-                        </div>
-                        <div class="form-group">
-                            <label>MQTT Tópico</label>
-                            <input class="form-control" id="id_mqtt_topic" maxlength="50" name="mqtt_topic" type="text" value="{{ peripheral.mqtt_topic }}" disabled />
-                        </div>                        
-                        <div class="form-group">
-                            <div class="col-lg-12">
-                                <div class="col-lg-6">                  
-                                    <div id='centralize-label'>
-                                        <label>Ativo</label> 
-                                        <input class="form-control" id="id_is_activated" name="is_activated" type="checkbox" disabled/>
+                                    <label>Data inicial da duração do ciclo</label>
+                                        <div class="input-group date" id='id_datetimepicker_begin_permanence_cycle'>
+                                        {{ form.start_permanence_cycle }}
+                                        <span class="input-group-addon">
+                                            <span class="glyphicon glyphicon-calendar"></span>
+                                        </span>                                    
                                     </div>
                                 </div>
-                                <div class="col-lg-6">                  
-
-                                </div>
-                            </div>       
-
-                            <div class="col-lg-12">
-                                <div class="col-lg-6">
-                                    <a class="btn btn-primary btn-lg" href="{% url 'peripheral_edit' pk=peripheral.pk %}" id="id_editar_btn">Editar</a>
-                                </div>
-                                <div class="col-lg-6">                   
-	    							<button type="button" class="btn btn-primary btn-lg btn-danger" data-toggle="modal" data-target="#modalConfirm">Excluir</button>
-                                </div>
-                                <!-- Modal -->
-                                <div class="modal fade" id="modalConfirm" tabindex="-1" role="dialog" aria-labelledby="modalConfirmLabel" aria-hidden="true">
-                                    <div class="modal-dialog">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                                                <h4 class="modal-title" id="modalConfirmLabel">Confirmar exclusão de periférico</h4>
+                                <div class="form-group">
+                                    <label>Atuadores</label>
+                                    {{ form.actuador_id }}
+                                </div>                                
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                        <div class="form-group">
+                                            <label>Início do ciclo</label>
+                                            <div class="input-group date" id='id_datetimepicker_begin_cycle'>
+                                                {{ form.start_cycle }}
+                                                <span class="input-group-addon">
+                                                    <span class="glyphicon glyphicon-time"></span>
+                                                </span>                                    
                                             </div>
-                                            <div class="modal-body">
-                                                Tem certeza que deseja excluir este periférico do banco de dados?
-                                            </div>
-                                            <div class="modal-footer">
-                                                <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
-                                                <a class="btn btn-primary btn-danger" href="{% url 'peripheral_remove' pk=peripheral.pk %}" id="id_excluir_btn">Excluir periférico</a>
-                                            </div>  
                                         </div>
-                                        <!-- /.modal-content -->
                                     </div>
-                                    <!-- /.modal-dialog -->
+                                    <div class="col-lg-6">
+                                        <div class="form-group">
+                                            <label>Fim do ciclo</label>
+                                            <div class="input-group date" id='id_datetimepicker_end_cycle'>
+                                                {{ form.end_cycle }}
+                                                <span class="input-group-addon">
+                                                    <span class="glyphicon glyphicon-time"></span>
+                                                </span>                                    
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
-                                <!-- /.modal -->
-                            </div>  
-                        </div>              
+                                <div class="form-group">
+                                    <label>Data final da duração do ciclo</label>
+                                    <div class="input-group date" id='id_datetimepicker_end_permanence_cycle'>
+                                        {{ form.end_permanence_cycle }}
+                                        <span class="input-group-addon">
+                                            <span class="glyphicon glyphicon-calendar"></span>
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="col-lg-12">
+                                    <div class="col-lg-6">
+                                        <div id='centralize-label'>
+                                            <label>Ativo</label>
+                                            {{ form.is_activated }}
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <div class="form-group">
+                                            {{ form.cycle_id.value }}
+                                            <button type="submit" class="save btn btn-default" id="id_salvar" disabled>Salvar</button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-12">
+                                    <div class="col-lg-6">
+                                        <a class="btn btn-primary btn-lg" id="id_editar_btn">Editar</a>
+                                    </div>
+                                    <div class="col-lg-6">                   
+                                        <button type="button" class="btn btn-primary btn-lg btn-danger" data-toggle="modal" data-target="#modalConfirm">Excluir</button>
+                                    </div>
+                                    <div class="modal fade" id="modalConfirm" tabindex="-1" role="dialog" aria-labelledby="modalConfirmLabel" aria-hidden="true">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                                    <h4 class="modal-title" id="modalConfirmLabel">Confirmar exclusão de ciclo</h4>
+                                                </div>
+                                                <div class="modal-body">
+                                                    Tem certeza que deseja excluir este ciclo do banco de dados?
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
+                                                    <a class="btn btn-primary btn-danger" href="{% url 'cycle_remove' pk=form.pk|title %}" id="id_excluir_btn">Excluir Ciclo</a>
+                                                </div>  
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div> 
+                            </div>                      
+                        </form>
                     </div>
-                </form>
+                </div>
             </div>      
         </div>
     </div>
@@ -122,6 +118,9 @@
 
 {% block jsimport %}
 
-	<script src="{% static 'js/validations/peripheral_detail.js' %}"></script>
+        <script src="{% static 'js/moment/moment.js' %}"></script>
+        <script src="{% static 'js/moment/locale/pt-br.js' %}"></script>        
+        <script src="{% static 'js/bootstrap-datetimepicker/bootstrap-datetimepicker.min.js' %}"></script>
+        <script src="{% static 'js/hyp-scripts/validations/cycle/cycle_detail.js' %}"></script>
 
 {% endblock %}

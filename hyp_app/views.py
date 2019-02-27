@@ -67,7 +67,7 @@ def peripheral_edit(request, pk):
 def peripheral_remove(request, pk):
     peripheral = get_object_or_404(Peripheral, pk=pk)
     peripheral.delete()
-    return redirect('peripheral_new')
+    return redirect('peripheral_list')
 
 def peripheral_list(request):
     peripherals = Peripheral.objects.all()
@@ -89,33 +89,26 @@ def cycle_new(request):
  
 
 def cycle_detail(request, pk): 
-#    peripheral = get_object_or_404(Peripheral, pk=pk)
-#    return render(request, 'hyp_app/peripheral_detail.html', {'peripheral': peripheral})
-    return 0
-
-def cycle_edit(request, pk):
-#    peripheral = get_object_or_404(Peripheral, pk=pk)
-#    if request.method == "POST":
-#        form = PeripheralForm(request.POST, instance=peripheral)
-#        if form.is_valid():
-#            peripheral = form.save(commit=False)
-#            peripheral.author = request.user
-#            peripheral.save()
-#            return redirect('peripheral_detail', pk=peripheral.pk)
-#    else:
-#        form = PeripheralForm(instance=peripheral)
-#    return render(request, 'hyp_app/peripheral_edit.html', {'peripheral': peripheral})    
-    return 0
-
-
+    cycle = get_object_or_404(Cycle, pk=pk)
+    
+    if request.method == "POST":
+        form = CycleForm(request.POST, instance=cycle)
+        if form.is_valid():
+            cycle = form.save(commit=False)
+            cycle.author = request.user
+            cycle.save()
+            return redirect('cycle_detail', pk=cycle.pk)
+    else:
+        form = CycleForm(instance=cycle)
+        form.pk = pk
+    
+    return render(request, 'hyp_app/cycle_detail.html', {'form': form})
 
 def cycle_remove(request, pk):
-#    peripheral = get_object_or_404(Peripheral, pk=pk)
-#    peripheral.delete()
-#    return redirect('peripheral_new')
-    return 0
+    cycle = get_object_or_404(Cycle, pk=pk)
+    cycle.delete()
+    return redirect('cycle_new')
 
 def cycle_list(request):
-#    peripherals = Peripheral.objects.all()
-#    return render(request, 'hyp_app/peripheral_datatable.html', {'peripherals': peripherals})
-    return 0
+    cycles = Cycles.objects.all()
+    return render(request, 'hyp_app/cycles_datatable.html', {'cycles': cycles})

@@ -24,12 +24,10 @@ class Peripheral(models.Model):
 
 class Cycle(models.Model):
 	cycle_id = models.AutoField(primary_key=True)
-	title = models.CharField(max_length=10, default='')
-	actuador_id = models.ForeignKey(Peripheral, default=None, on_delete=models.DO_NOTHING)
-	actuador_record_state = models.CharField(max_length=10, default='')
+	title = models.CharField(max_length=50, default='')
+	actuador_id = models.ForeignKey(Peripheral, default=None, on_delete=models.CASCADE)
 	is_activated = models.BooleanField(default=False)
-	start_cycle = models.CharField(max_length=100, default='', null=True)
-	end_cycle = models.CharField(max_length=100, default='', null=True)
+	start_cycle = models.CharField(max_length=10, default='', null=True)
+	end_cycle = models.CharField(max_length=10, default='', null=True)
 	start_permanence_cycle = models.CharField(max_length=100, default='', null=True)
 	end_permanence_cycle = models.CharField(max_length=100, default='', null=True)	
-	total_permanence_cycle = models.CharField(max_length=100, default='', null=True)
