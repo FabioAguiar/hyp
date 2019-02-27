@@ -2,10 +2,6 @@ from django.db import models
 from django.utils import timezone
 from PIL import Image
 
-
-#class Cicle (models.Model):
-#	cicle_id = models.AutoField(primary_key=True)
-
 class Peripheral(models.Model):
 	peripheral_id = models.AutoField(primary_key=True)
 	name = models.CharField(max_length=50, default='')

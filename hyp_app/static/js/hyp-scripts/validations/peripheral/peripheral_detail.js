@@ -5,35 +5,28 @@ $(function(){
 	var specification = $("#id_specification").val();
 	var mqtt_topic = $("#id_mqtt_topic").val();
 
-
-
-	function setIsActive(){
-		if('{{ peripheral.is_activated }}'){
-			$("#id_is_activated").attr("checked", true);
-		}
-	}
-
-	setIsActive();
+	$("#id_topic_base").prop( "disabled", true );
+	$("#id_type_peripheral").prop( "disabled", true );
+	$("#id_topic_name").prop( "disabled", true );
+	$("#id_specification").prop( "disabled", true );
+	$("#id_mqtt_topic").prop( "disabled", true );
+	$("#id_name").prop( "disabled", true );
+	$("#id_technical_name").prop( "disabled", true );
+	$("#id_description").prop( "disabled", true );
+	$("#id_is_activated").prop( "disabled", true );
+	$("#id_data_metric").prop( "disabled", true );
 
 	function MQTTTopic(topic_val){
 		mqtt_topic = topic_base + type_peripheral + topic_name + specification;
 		$("#id_mqtt_topic").val(mqtt_topic);
-		//console.log(mqtt_topic);
 	}
 
-
-	$("#id_salvar").click(function(){
-		console.log("Entrou detail peripheral");
-	});	
-
-	//$("#id_last_record_state").val(0);
-	//$("#id_last_record").val(new Date());
 
 	$("#id_editar_btn").click(function(){
 		$( "input:disabled" ).prop( "disabled", false );
 		$( "#id_type_peripheral" ).prop( "disabled", false );
-		$( "#id_description" ).prop( "disabled", false );		
-		$( "#id_salvar" ).removeClass( "disabled" );	
+		$( "#id_description" ).prop( "disabled", false );	
+		$( "#id_salvar" ).prop( "disabled", false );
 	});
 
 
