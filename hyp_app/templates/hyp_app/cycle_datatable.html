@@ -25,22 +25,22 @@
                                     <thead>
                                         <tr>
                                             <th>Título</th>
-                                            <th>Início do ciclo</th>
-                                            <th>Fim do ciclo</th>
+                                            <th>Tempo inicial</th>
+                                            <th>Tempo final</th>
                                             <th>Data inicial da duração do ciclo</th>
                                             <th>Data final da duração do ciclo</th>                                             
-                                            <th>Ativo</th> 
+                                            <th>Ativo</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         {% for cycle in cycles %}
                                         <tr class="odd gradeX">
                                             <td> <a href="{% url 'cycle_detail' pk=cycle.pk %}"> {{ cycle.title }} </a> </td>
+                                            <td> {{ cycle.start_time }} </td>
+                                            <td> {{ cycle.end_time }} </td>
                                             <td> {{ cycle.start_cycle }} </td>
                                             <td> {{ cycle.end_cycle }} </td>
-                                            <td> {{ cycle.start_permanence_cycle }} </td>
-                                            <td> {{ cycle.end_permanence_cycle }} </td>
-                                            <td class="center"> {{ cycle.is_activated }} </td>                                            
+                                            <td class="center"> {{ cycle.is_activated }} </td>
                                         </tr>
                                         {% endfor %}
                                     </tbody>   

@@ -1,5 +1,4 @@
 from django.db import models
-from django.utils import timezone
 from PIL import Image
 
 class Peripheral(models.Model):
@@ -23,7 +22,7 @@ class Cycle(models.Model):
 	title = models.CharField(max_length=50, default='')
 	actuador_id = models.ForeignKey(Peripheral, default=None, on_delete=models.CASCADE)
 	is_activated = models.BooleanField(default=False)
-	start_cycle = models.CharField(max_length=10, default='', null=True)
-	end_cycle = models.CharField(max_length=10, default='', null=True)
-	start_permanence_cycle = models.CharField(max_length=100, default='', null=True)
-	end_permanence_cycle = models.CharField(max_length=100, default='', null=True)	
+	start_time = models.TimeField(blank=True, null=True)
+	end_time = models.TimeField(blank=True, null=True)
+	start_cycle = models.DateTimeField(blank=True, null=True)
+	end_cycle = models.DateTimeField(blank=True, null=True)

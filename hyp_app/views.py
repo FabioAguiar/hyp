@@ -1,6 +1,5 @@
 from django.shortcuts import render, get_object_or_404
 from .models import Peripheral, Cycle
-from django.utils import timezone
 from .forms import PeripheralForm, CycleForm
 from django.shortcuts import redirect
 from . import mqtt
@@ -58,7 +57,6 @@ def peripheral_detail(request, pk):
     else:
         form = PeripheralForm(instance=peripheral)
         form.pk = pk
-        print(form.pk)
 
     return render(request, 'hyp_app/peripheral_detail.html', {'form': form})    
 
