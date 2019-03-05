@@ -1,8 +1,10 @@
 from django.shortcuts import render, get_object_or_404
-from .models import Peripheral, Cycle
-from .forms import PeripheralForm, CycleForm
+from .models import Peripheral, Cycle, Broker
+from .forms import PeripheralForm, CycleForm, BrokerForm
 from django.shortcuts import redirect
 from . import mqtt
+import time
+
 
 def dashboard(request):
     peripherals = Peripheral.objects.all()
@@ -10,10 +12,6 @@ def dashboard(request):
 
 def weather_station(request):
     return render(request, 'hyp_app/weather_station.html', { })
-
-def control_panel(request):
-    return render(request, 'hyp_app/control_panel.html', {})
-
 
 def peripheral_actuador(request, pk):
     peripherals = Peripheral.objects.all()    
@@ -121,3 +119,44 @@ def cycle_remove(request, pk):
 def cycle_list(request):
     cycles = Cycle.objects.all()
     return render(request, 'hyp_app/cycle_datatable.html', {'cycles': cycles})
+
+def broker_new(request):
+    broker = Broker.objects.all()
+
+    if(broker.count() > 0):
+        return redirect('broker_detail')
+    else:
+        if request.method == "POST":
+            form = BrokerForm(request.POST)
+            if form.is_valid():
+                broker = form.save(commit=False)
+                broker.author = request.user
+                broker.save()
+                return redirect('broker_detail')
+        else:
+            form = BrokerForm()
+
+    return render(request, 'hyp_app/broker_new.html', {'form': form})
+
+
+def broker_detail(request): 
+    broker = Broker.objects.all()
+
+    if request.method == "POST":
+        form = BrokerForm(request.POST, instance=broker[0])
+        if form.is_valid():
+            broker = form.save(commit=False)
+            broker.author = request.user
+            broker.save()
+            return redirect('broker_detail')
+    else:
+        form = BrokerForm(instance=broker[0])
+    
+    return render(request, 'hyp_app/broker_detail.html', {'form': form})
+
+def broker_remove(request):
+    print("REMOVER")
+    brokers = Broker.objects.all()
+    brokers[0].delete()
+    print(brokers[0].broker_id)
+    return redirect('broker_new')

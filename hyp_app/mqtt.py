@@ -20,16 +20,13 @@ def on_connect(client, userdata, flags, rc):
 
 #Callback - mensagem recebida do broker
 def on_message(client, userdata, msg):
-    #dateTime = strftime("%Y-%m-%d %H:%M:%S", gmtime())
-    #hourTime = strftime("%H:%M:%S", gmtime()) 
-    #result = (theTime + "\t" + str(msg.payload))
     #print("[MSG RECEBIDA] Topic: "+msg.topic+" Mensagem: "+str(msg.payload))
     mqtt_storage.writeToDb(msg.topic, str(msg.payload))
 
 
 #Callback - mensagem enviada ao broker
 def on_publish(client,userdata,result):
-    print("data published \n")
+    #print("data published \n")
     pass
 
 

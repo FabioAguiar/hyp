@@ -1,0 +1,77 @@
+{% extends 'hyp_app/base.html' %}
+{% load staticfiles %}
+
+{% block cssimport %}
+
+    <!-- Social Buttons CSS -->
+	<link href="{% static 'css/bootstrap-social/bootstrap-social.css' %}" rel="stylesheet" >
+
+{% endblock %}
+
+{% block content %}
+    <div class="col-lg-12">
+	    <h1 class="page-header">Detalhes do servidor broker</h1>
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <form method="POST" enctype="multipart/form-data" class="post-form" id="id_broker_form">{% csrf_token %}
+                    <div class="col-lg-6">
+                        <div class="form-group">
+                            <label>Nome do servidor</label>
+                            {{ form.name }}
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-6">                            
+                                <div class="form-group">
+                                    <label>Porta</label>
+                                    {{ form.port }}                    
+                                </div>
+                            </div>                
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label>Keep Alive</label>
+                                    {{ form.keep_alive }}
+                                </div>
+                            </div>                                    
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="form-group">
+                            <label>Nome do usuário</label>
+                            {{ form.user_name }}
+                        </div>
+                        <div class="form-group">
+                            <label>Senha</label>
+                            {{ form.passwd }}
+                        </div>                                            
+                        <div class="form-group">
+                            <div class="col-lg-12">
+                                <div class="col-lg-6">                  
+                                    <div id='centralize-label'>
+                                        <label>Ativo</label> 
+                                        {{ form.is_activated }}
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="form-group">
+                                        <button type="submit" class="save btn btn-default" id="id_salvar" disabled>Salvar</button>
+                                    </div>
+                                </div>
+                            </div>       
+                            <div class="col-lg-12">
+                                <div class="col-lg-6">
+                                    <a class="btn btn-primary btn-lg" id="id_editar_btn">Editar</a>
+                                </div>
+                            </div>  
+                        </div>              
+                    </div>
+                </form>
+            </div>      
+        </div>
+    </div>
+{% endblock %}
+
+{% block jsimport %}
+
+	<script src="{% static 'js/hyp-scripts/validations/peripheral/broker_detail.js' %}"></script>
+
+{% endblock %}

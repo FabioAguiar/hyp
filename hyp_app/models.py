@@ -26,3 +26,13 @@ class Cycle(models.Model):
 	end_time = models.TimeField(blank=True, null=True)
 	start_cycle = models.DateTimeField(blank=True, null=True)
 	end_cycle = models.DateTimeField(blank=True, null=True)
+
+
+class Broker(models.Model):
+	broker_id = models.AutoField(primary_key=True)
+	name = models.CharField(max_length=50, default='')
+	port = models.IntegerField()
+	keep_alive = models.IntegerField()
+	user_name = models.CharField(max_length=50, default='')
+	passwd = models.CharField(max_length=50, default='')
+	is_activated = models.BooleanField(default=False)

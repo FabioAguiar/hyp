@@ -1,5 +1,5 @@
 from django import forms
-from .models import Peripheral, Cycle
+from .models import Peripheral, Cycle, Broker
 
 
 class PeripheralForm(forms.ModelForm):
@@ -44,3 +44,19 @@ class CycleForm(forms.ModelForm):
         self.fields['end_time'].widget.attrs.update({'class' : 'form-control'})
         self.fields['start_cycle'].widget.attrs.update({'class' : 'form-control'})
         self.fields['end_cycle'].widget.attrs.update({'class' : 'form-control'})
+
+
+class BrokerForm(forms.ModelForm):
+
+    class Meta:
+        model = Broker
+        fields = ('name', 'port', 'keep_alive', 'user_name', 'passwd', 'is_activated');
+
+    def __init__(self, *args, **kwargs):
+        super(BrokerForm, self).__init__(*args, **kwargs)
+        self.fields['name'].widget.attrs.update({'class' : 'form-control'})
+        self.fields['port'].widget.attrs.update({'class' : 'form-control'})
+        self.fields['keep_alive'].widget.attrs.update({'class' : 'form-control'})
+        self.fields['user_name'].widget.attrs.update({'class' : 'form-control'})
+        self.fields['passwd'].widget.attrs.update({'class' : 'form-control'})
+        self.fields['is_activated'].widget.attrs.update({'class' : 'form-control'})        
