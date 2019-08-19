@@ -22,12 +22,14 @@ def writeToDb(topic, value):
 		#Trata o valor capturado pelos sensores, retirando os caracteres 'b', '[' e ']' da String	
 		aux = value[2:-1]
 		valor = str(float(aux))
+		#print(topico)
+		#print(valor)
 	
 
 
-	c.execute("""
-	UPDATE hyp_app_peripheral SET last_record_state = """ + valor + """ WHERE mqtt_topic == '""" + topic + """';
-	""")
+	#c.execute("""
+	#UPDATE hyp_app_peripheral SET last_record_state = """ + valor + """ WHERE mqtt_topic == '""" + topic + """';
+	#""")
 	
 	conn.commit()	
 	conn.close()

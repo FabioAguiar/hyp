@@ -1,5 +1,18 @@
 from django import forms
-from .models import Peripheral, Cycle, Broker
+from .models import Login, Peripheral, Cycle, Broker
+
+
+class LoginForm(forms.ModelForm):
+
+    class Meta:
+        model = Login
+        fields = ('email', 'passwd')
+
+
+    def __init__(self, *args, **kwargs):
+        super(LoginForm, self).__init__(*args, **kwargs)
+        self.fields['email'].widget.attrs.update({'class' : 'form-control'})
+        self.fields['passwd'].widget.attrs.update({'class' : 'form-control'})
 
 
 class PeripheralForm(forms.ModelForm):
@@ -59,4 +72,4 @@ class BrokerForm(forms.ModelForm):
         self.fields['keep_alive'].widget.attrs.update({'class' : 'form-control'})
         self.fields['user_name'].widget.attrs.update({'class' : 'form-control'})
         self.fields['passwd'].widget.attrs.update({'class' : 'form-control'})
-        self.fields['is_activated'].widget.attrs.update({'class' : 'form-control'})        
+        self.fields['is_activated'].widget.attrs.update({'class' : 'form-control'}) 

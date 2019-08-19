@@ -1,9 +1,55 @@
 from django.shortcuts import render, get_object_or_404
-from .models import Peripheral, Cycle, Broker
-from .forms import PeripheralForm, CycleForm, BrokerForm
+from .models import Login, Peripheral, Cycle, Broker
+from .forms import PeripheralForm, CycleForm, BrokerForm, LoginForm
 from django.shortcuts import redirect
 from . import mqtt
 import time
+
+import pyrebase
+from django.contrib import auth
+config = {
+    'apiKey': "AIzaSyBse-xWFqcWnnMSqvJsmt1MP7ILOAHw7jw",
+    'authDomain': "hypmobile-51803.firebaseapp.com",
+    'databaseURL': "https://hypmobile-51803.firebaseio.com",
+    'projectId': "hypmobile-51803",
+    'storageBucket': "hypmobile-51803.appspot.com",
+    #'messagingSenderId': "579985583952"
+  }
+
+firebase = pyrebase.initialize_app(config)
+auth = firebase.auth()
+
+
+def signIn(request):
+    if request.method == "POST":
+        form = LoginForm(request.POST)
+        if form.is_valid():
+            email = request.POST.get('email')
+            passwd = request.POST.get('passwd')
+
+            print(email)
+            print(passwd)
+            try:
+                user = auth.sign_in_with_email_and_password(email, passwd)
+            except:
+                message="invalid credentials"
+                return render(request,'hyp_app/login.html',{'messg':message})
+
+            peripherals = Peripheral.objects.all()
+
+            print(user['idToken'])
+            session_id=user['idToken']
+            request.session['uid']=str(session_id)
+            return render(request, 'hyp_app/dashboard.html', {'peripherals': peripherals})
+    else:
+        form = LoginForm()
+    
+    return render(request, 'hyp_app/login.html', {'form': form})
+
+
+def logout(request):
+    auth.logout(request)
+    return render(request,'hyp_app/login.html')
 
 
 def dashboard(request):

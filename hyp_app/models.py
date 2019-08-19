@@ -1,6 +1,11 @@
 from django.db import models
 from PIL import Image
 
+
+class Login(models.Model):
+	email = models.CharField(max_length=50, default='')
+	passwd = models.CharField(max_length=50, default='')
+
 class Peripheral(models.Model):
 	peripheral_id = models.AutoField(primary_key=True)
 	name = models.CharField(max_length=50, default='')
