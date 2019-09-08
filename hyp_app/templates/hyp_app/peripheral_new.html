@@ -1,37 +1,30 @@
 {% extends 'hyp_app/base.html' %}
 {% load staticfiles %}
 
+{% block cssimport %}
+
+<link href="{% static 'css/bootstrap-toggle/bootstrap-toggle.min.css' %}" rel="stylesheet" >
+
+{% endblock %}
+
 {% block content %}
     <div class="col-lg-12">
-         <h1 class="page-header">Adicionar periférico</h1>
+        <form method="POST" enctype="multipart/form-data" class="post-form" id="id_peripheral_form">{% csrf_token %}
+         <h3 class="page-header">Adicionar <input type="checkbox" checked data-toggle="toggle" data-on="Sensor" data-off="Atuador" data-onstyle="info" data-offstyle="success" data-size="large"></h3>
         <div class="panel panel-default">
             <div class="panel-body">
                 <div class="row">
                     <div class="col-lg-12">
-                        <form method="POST" enctype="multipart/form-data" class="post-form" id="id_peripheral_form">{% csrf_token %}
+                        
                             <div class="col-lg-6">
                                 <div class="form-group">
                                     <label>Nome</label>
                                     {{ form.name }}
                                 </div>
-                                <div class="row">
-                                    <div class="col-sm-6">                            
-                                        <div class="form-group">
-                                            <label>Base do tópico MQTT</label>
-                                            {{ form.topic_base }}                    
-                                        </div>
-                                    </div>                
-                                    <div class="col-sm-6">
-                                        <div class="form-group">
-                                            <label>Tipo do periférico</label>
-                                            {{ form.type_peripheral }}
-                                        </div>
-                                    </div>                                    
-                                </div>
-                                <div class="form-group">
+                                <div class="form-group" rows="5">
                                     <label>Descrição</label>
                                     {{ form.description }}
-                                </div>
+                                </div>                                
                                 <div class="form-group">
                                     {{ form.last_record_state.as_hidden  }}                    
                                 </div>
@@ -58,6 +51,20 @@
                                         </div>
                                     </div>                                    
                                 </div>
+                                <div class="row">
+                                    <div class="col-sm-6">                            
+                                        <div class="form-group">
+                                            <label>Base do tópico MQTT</label>
+                                            {{ form.topic_base }}                    
+                                        </div>
+                                    </div>                
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label>Tipo do periférico</label>
+                                            {{ form.type_peripheral }}
+                                        </div>
+                                    </div>                                    
+                                </div>                                
                                 <div class="row">                                
                                     <div class="form-group">
                                         <div class="col-lg-12">
@@ -88,16 +95,21 @@
                                     </div>
                                 </div>              
                             </div>
-                        </form>
+                        
                     </div>
                 </div>
             </div>      
         </div>
+
+
+
+        </form>
     </div>
 {% endblock %}
 
 {% block jsimport %}
 
 <script src="{% static 'js/hyp-scripts/validations/peripheral/peripheral_new.js' %}"></script>
+<script src="{% static 'js/bootstrap-toggle/bootstrap-toggle.min.js' %}"></script>
 
 {% endblock %}

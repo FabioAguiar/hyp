@@ -1,24 +1,30 @@
 from django.shortcuts import render, get_object_or_404
-from .models import Login, Peripheral, Cycle, Broker
-from .forms import PeripheralForm, CycleForm, BrokerForm, LoginForm
+from .models import User, Login, Peripheral, Cycle, Broker
+from .forms import PeripheralForm, CycleForm, BrokerForm, LoginForm, UserForm
 from django.shortcuts import redirect
+from datetime import datetime
 from . import mqtt
 import time
+from base64 import b64encode, b64decode
+import ast
 
 import pyrebase
 from django.contrib import auth
+
 config = {
     'apiKey': "AIzaSyBse-xWFqcWnnMSqvJsmt1MP7ILOAHw7jw",
     'authDomain': "hypmobile-51803.firebaseapp.com",
     'databaseURL': "https://hypmobile-51803.firebaseio.com",
     'projectId': "hypmobile-51803",
     'storageBucket': "hypmobile-51803.appspot.com",
-    #'messagingSenderId': "579985583952"
+    'messagingSenderId': "617864492019",
+    'appId': "1:617864492019:web:a95457dab1bfacf7a19886"
   }
+
 
 firebase = pyrebase.initialize_app(config)
 auth = firebase.auth()
-
+db = firebase.database()
 
 def signIn(request):
     if request.method == "POST":
@@ -27,8 +33,6 @@ def signIn(request):
             email = request.POST.get('email')
             passwd = request.POST.get('passwd')
 
-            print(email)
-            print(passwd)
             try:
                 user = auth.sign_in_with_email_and_password(email, passwd)
             except:
@@ -52,12 +56,71 @@ def logout(request):
     return render(request,'hyp_app/login.html')
 
 
+def user_new(request):
+    if request.method == "POST":
+        form = UserForm(request.POST)
+        if form.is_valid():
+            user = form.save(commit=False)
+
+            try:
+                auth.create_user_with_email_and_password(user.email, user.passwd)
+                userF = auth.sign_in_with_email_and_password(user.email, user.passwd)
+            except:
+                message="invalid credentials"
+                return render(request,'hyp_app/user_new.html',{'messg':message})
+
+            email = {"email": user.email}
+
+            data = {"email": user.email, "passwd": user.passwd}
+            data = str.encode(str(data))
+            data = b64encode(data)
+            uid = b64encode(data).decode("utf-8")
+
+            db.child("users").child(uid).set(email, userF['idToken'])
+            request.session['uid']=uid
+            peripherals = Peripheral.objects.all()
+
+            return render(request, 'hyp_app/dashboard.html', {'peripherals': peripherals})
+    else:
+        form = UserForm()
+        
+    return render(request, 'hyp_app/user_new.html', {'form': form})
+
+
 def dashboard(request):
     peripherals = Peripheral.objects.all()
     return render(request, 'hyp_app/dashboard.html', {'peripherals': peripherals})
 
 def weather_station(request):
     return render(request, 'hyp_app/weather_station.html', { })
+
+def firebase_data(peripheral):
+    data = {"Name": peripheral.name, 
+        "Technical Name": peripheral.technical_name,
+        "Topic Base": peripheral.name,
+        "Type Peripheral": peripheral.type_peripheral,
+        "Topic Name": peripheral.topic_name,
+        "Specification": peripheral.specification,
+        "Description": peripheral.description,
+        "Topic MQTT": peripheral.name,
+        "Is activated": peripheral.is_activated,
+        "Is activated": peripheral.is_activated,
+        "Data Metric": peripheral.data_metric                    
+    }
+    return data
+
+def user_firebase(uid):
+    user = b64decode(uid).decode("utf-8")
+    user = b64decode(user)
+    user = ast.literal_eval(user.decode('utf-8'))
+    try:
+        userF = auth.sign_in_with_email_and_password(user['email'], user['passwd'])
+    except:
+        message="invalid credentials"
+        #return render(request,'hyp_app/user_new.html',{'messg':message})
+
+    return userF
+
 
 def peripheral_actuador(request, pk):
     peripherals = Peripheral.objects.all()    
@@ -74,19 +137,32 @@ def peripheral_actuador(request, pk):
 
     return render(request, 'hyp_app/dashboard.html', {'peripherals': peripherals})
 
+def peripheral_firebase_id():
+    strnow = datetime.now().strftime('%Y-%m-%d %H:%M:%S.%f')
+    strnow = str.encode(str(strnow))
+    return b64encode(strnow).decode("utf-8")
 
 def peripheral_new(request):
+    print(request.session['uid'])
     if request.method == "POST":
         form = PeripheralForm(request.POST)
         if form.is_valid():
+
             peripheral = form.save(commit=False)
             peripheral.author = request.user
+            peripheral.firebase_id = peripheral_firebase_id()
             peripheral.save()
+
+            data = firebase_data(peripheral)
+            user = user_firebase(request.session['uid'])
+            db.child("users").child(request.session['uid']).child('device').child(peripheral.type_peripheral).child(peripheral.firebase_id).update(data, userF['idToken'])
+
             return redirect('peripheral_detail', pk=peripheral.pk)
     else:
         form = PeripheralForm()
         
     return render(request, 'hyp_app/peripheral_new.html', {'form': form})
+
 
 def peripheral_detail(request, pk): 
     peripheral = get_object_or_404(Peripheral, pk=pk)
@@ -97,26 +173,20 @@ def peripheral_detail(request, pk):
             peripheral = form.save(commit=False)
             peripheral.author = request.user
             peripheral.save()
+
+            user = user_firebase(request.session['uid'])            
+            data = firebase_data(peripheral)
+
+            db.child("users").child(request.session['uid']).child('device').child(peripheral.type_peripheral).child(peripheral.firebase_id).update(data, user['idToken'])
+            #dados = db.child("users").child(uid).child('device').child(peripheral.type_peripheral).child(peripheral.firebase_id).get(userF['idToken'])
+            #print(dados.val())
+
             return redirect('peripheral_detail', pk=peripheral.pk)
     else:
         form = PeripheralForm(instance=peripheral)
         form.pk = pk
 
     return render(request, 'hyp_app/peripheral_detail.html', {'form': form})    
-
-def peripheral_edit(request, pk):
-    peripheral = get_object_or_404(Peripheral, pk=pk)
-    if request.method == "POST":
-        form = PeripheralForm(request.POST, instance=peripheral)
-        if form.is_valid():
-            peripheral = form.save(commit=False)
-            peripheral.author = request.user
-            peripheral.save()
-            return redirect('peripheral_detail', pk=peripheral.pk)
-    else:
-        form = PeripheralForm(instance=peripheral)
-    return render(request, 'hyp_app/peripheral_edit.html', {'peripheral': peripheral})    
-
 
 def peripheral_remove(request, pk):
     peripheral = get_object_or_404(Peripheral, pk=pk)

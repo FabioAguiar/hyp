@@ -1,5 +1,5 @@
 from django import forms
-from .models import Login, Peripheral, Cycle, Broker
+from .models import User, Login, Peripheral, Cycle, Broker
 
 
 class LoginForm(forms.ModelForm):
@@ -14,6 +14,19 @@ class LoginForm(forms.ModelForm):
         self.fields['email'].widget.attrs.update({'class' : 'form-control'})
         self.fields['passwd'].widget.attrs.update({'class' : 'form-control'})
 
+
+class UserForm(forms.ModelForm):
+
+    class Meta:
+        model = User
+        fields = ('name','email', 'passwd')
+
+
+    def __init__(self, *args, **kwargs):
+        super(UserForm, self).__init__(*args, **kwargs)
+        self.fields['name'].widget.attrs.update({'class' : 'form-control'})        
+        self.fields['email'].widget.attrs.update({'class' : 'form-control'})
+        self.fields['passwd'].widget.attrs.update({'class' : 'form-control'})
 
 class PeripheralForm(forms.ModelForm):
 
@@ -33,6 +46,7 @@ class PeripheralForm(forms.ModelForm):
         self.fields['specification'].widget.attrs.update({'class' : 'form-control'})
         self.fields['mqtt_topic'].widget.attrs.update({'class' : 'form-control'})
         self.fields['description'].widget.attrs.update({'class' : 'form-control'})
+        self.fields['description'].widget.attrs.update({'rows' : '5'})        
         self.fields['is_activated'].widget.attrs.update({'class' : 'form-control'})
         self.fields['last_record'].widget.attrs.update({'class' : 'form-control'})
         self.fields['last_record_state'].widget.attrs.update({'class' : 'form-control'})

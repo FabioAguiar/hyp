@@ -2,6 +2,12 @@ from django.db import models
 from PIL import Image
 
 
+class User(models.Model):
+	name = models.CharField(max_length=50, default='')
+	email = models.CharField(max_length=50, default='')
+	passwd = models.CharField(max_length=50, default='')
+
+
 class Login(models.Model):
 	email = models.CharField(max_length=50, default='')
 	passwd = models.CharField(max_length=50, default='')
@@ -20,6 +26,7 @@ class Peripheral(models.Model):
 	last_record = models.CharField(max_length=100, default='', null=True)
 	last_record_state = models.CharField(max_length=10, default='')
 	data_metric = models.CharField(max_length=10, default='')
+	firebase_id = models.CharField(max_length=40, default='')
 	
 
 class Cycle(models.Model):
