@@ -3,7 +3,7 @@ from .models import User, Login, Peripheral, Cycle, Broker
 from .forms import PeripheralForm, CycleForm, BrokerForm, LoginForm, UserForm
 from django.shortcuts import redirect
 from datetime import datetime
-from . import mqtt
+from . import mqtt, config_helper
 import time
 from base64 import b64encode, b64decode
 import ast
@@ -11,7 +11,6 @@ import ast
 import pyrebase
 from django.contrib import auth
 
-from . import config_helper
 
 config = config_helper.configFirebase()
 
@@ -19,12 +18,50 @@ firebase = pyrebase.initialize_app(config)
 auth = firebase.auth()
 db = firebase.database()
 
+
+def firebase_data(peripheral):
+    data = {"Name": peripheral.name, 
+        "Technical Name": peripheral.technical_name,
+        "Topic Base": peripheral.name,
+        "Type Peripheral": peripheral.type_peripheral,
+        "Topic Name": peripheral.topic_name,
+        "Specification": peripheral.specification,
+        "Description": peripheral.description,
+        "Topic MQTT": peripheral.name,
+        "Is activated": peripheral.is_activated,
+        "Is activated": peripheral.is_activated,
+        "Data Metric": peripheral.data_metric                 
+    }
+    return data
+
+def user_firebase(uid):
+    user = b64decode(uid).decode("utf-8")
+    user = b64decode(user)
+    user = ast.literal_eval(user.decode('utf-8'))
+    try:
+        userF = auth.sign_in_with_email_and_password(user['email'], user['passwd'])
+    except:
+        message="invalid credentials"
+        #return render(request,'hyp_app/user_new.html',{'messg':message})
+
+    return userF
+
+def userId(email, passwd):
+    data = {"email": email, "passwd": passwd}
+    data = str.encode(str(data))
+    data = b64encode(data)
+    uid = b64encode(data).decode("utf-8")
+    return uid
+
+
 def signIn(request):
     if request.method == "POST":
         form = LoginForm(request.POST)
         if form.is_valid():
             email = request.POST.get('email')
             passwd = request.POST.get('passwd')
+
+            uid = userId(email,  passwd)
 
             try:
                 user = auth.sign_in_with_email_and_password(email, passwd)
@@ -34,9 +71,8 @@ def signIn(request):
 
             peripherals = Peripheral.objects.all()
 
-            print(user['idToken'])
-            session_id=user['idToken']
-            request.session['uid']=str(session_id)
+            request.session['uid']=uid
+            print(uid)
             return render(request, 'hyp_app/dashboard.html', {'peripherals': peripherals})
     else:
         form = LoginForm()
@@ -62,13 +98,13 @@ def user_new(request):
                 message="invalid credentials"
                 return render(request,'hyp_app/user_new.html',{'messg':message})
 
-            email = {"email": user.email}
 
             data = {"email": user.email, "passwd": user.passwd}
             data = str.encode(str(data))
             data = b64encode(data)
             uid = b64encode(data).decode("utf-8")
 
+            email = {"email": user.email}
             db.child("users").child(uid).set(email, userF['idToken'])
             request.session['uid']=uid
             peripherals = Peripheral.objects.all()
@@ -86,34 +122,6 @@ def dashboard(request):
 
 def weather_station(request):
     return render(request, 'hyp_app/weather_station.html', { })
-
-def firebase_data(peripheral):
-    data = {"Name": peripheral.name, 
-        "Technical Name": peripheral.technical_name,
-        "Topic Base": peripheral.name,
-        "Type Peripheral": peripheral.type_peripheral,
-        "Topic Name": peripheral.topic_name,
-        "Specification": peripheral.specification,
-        "Description": peripheral.description,
-        "Topic MQTT": peripheral.name,
-        "Is activated": peripheral.is_activated,
-        "Is activated": peripheral.is_activated,
-        "Data Metric": peripheral.data_metric                    
-    }
-    return data
-
-def user_firebase(uid):
-    user = b64decode(uid).decode("utf-8")
-    user = b64decode(user)
-    user = ast.literal_eval(user.decode('utf-8'))
-    try:
-        userF = auth.sign_in_with_email_and_password(user['email'], user['passwd'])
-    except:
-        message="invalid credentials"
-        #return render(request,'hyp_app/user_new.html',{'messg':message})
-
-    return userF
-
 
 def peripheral_actuador(request, pk):
     peripherals = Peripheral.objects.all()    
@@ -148,7 +156,7 @@ def peripheral_new(request):
 
             data = firebase_data(peripheral)
             user = user_firebase(request.session['uid'])
-            db.child("users").child(request.session['uid']).child('device').child(peripheral.type_peripheral).child(peripheral.firebase_id).update(data, userF['idToken'])
+            db.child("users").child(request.session['uid']).child('device').child(peripheral.type_peripheral).child(peripheral.firebase_id).update(data, user['idToken'])
 
             return redirect('peripheral_detail', pk=peripheral.pk)
     else:
@@ -167,8 +175,9 @@ def peripheral_detail(request, pk):
             peripheral.author = request.user
             peripheral.save()
 
-            user = user_firebase(request.session['uid'])            
+            user = user_firebase(request.session['uid'])       
             data = firebase_data(peripheral)
+            uid = request.session['uid']
 
             db.child("users").child(request.session['uid']).child('device').child(peripheral.type_peripheral).child(peripheral.firebase_id).update(data, user['idToken'])
             #dados = db.child("users").child(uid).child('device').child(peripheral.type_peripheral).child(peripheral.firebase_id).get(userF['idToken'])
@@ -182,7 +191,9 @@ def peripheral_detail(request, pk):
     return render(request, 'hyp_app/peripheral_detail.html', {'form': form})    
 
 def peripheral_remove(request, pk):
-    peripheral = get_object_or_404(Peripheral, pk=pk)
+    peripheral = get_object_or_404(Peripheral, pk=pk)    
+    user = user_firebase(request.session['uid'])
+    db.child("users").child(request.session['uid']).child('device').child(peripheral.type_peripheral).child(peripheral.firebase_id).remove(user['idToken'])
     peripheral.delete()
     return redirect('peripheral_datatable')
 
