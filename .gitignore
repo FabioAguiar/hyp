@@ -5,4 +5,4 @@ myvenv
 db.sqlite3
 /static
 .DS_Store
-hyp/hyp_app/config_helper.py
+/hyp_app/config_helper.py
